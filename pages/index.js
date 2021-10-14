@@ -2,7 +2,23 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import {withAuthenticator} from "@aws-amplify/ui-react"
+import { User } from 'src/models'
+import { DataStore } from '@aws-amplify/datastore'
+import { useEffect } from 'react'
+import { listUsers } from 'src/graphql/queries'
+import { API,graphqlOperation,Auth } from "aws-amplify"
  function Home() {
+  useEffect(() => {
+    const ddd = async()=>{
+      const fffr = await DataStore.query(User)
+      const fff = await API.graphql(graphqlOperation(listUsers))
+      console.log(fff)
+      console.log(fffr)
+    }
+    
+    ddd()
+  }, [])
+
   return (
     <div className={styles.container}>
       <Head>
