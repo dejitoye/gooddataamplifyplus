@@ -11,10 +11,12 @@
   "dependencies": {
     "-": "0.0.1",
     "@aws-amplify/ui-react": "^1.2.20",
+    "@headlessui/react": "^1.4.1",
     "@heroicons/react": "^1.0.4",
     "aws-amplify": "^4.3.2",
     "next": "11.1.2",
     "next-redux-wrapper": "^7.0.5",
+    "next-themes": "0.0.15",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-redux": "^7.2.5",

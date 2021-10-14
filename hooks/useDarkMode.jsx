@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 function useDarkMode() {
     const [theme,setTheme]=useState('light')
     const colorTheme = theme==='dark' ? "light" :"dark"
-    // console.log(colorTheme, "is:", theme)
+    console.log(colorTheme, "is:", theme)
     useEffect(() => {
         
     const root = window.document.documentElement

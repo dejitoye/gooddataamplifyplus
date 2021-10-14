@@ -12,7 +12,7 @@
 
 
 
-/* .icon {
+.icon {
     @apply w-1/5 md:w-max text-center;
 }
 
@@ -40,4 +40,4 @@
 
 .search{
 @apply outline-none bg-transparent  rounded-lg bg-gray-100 w-full p-2
-} */
+} 
