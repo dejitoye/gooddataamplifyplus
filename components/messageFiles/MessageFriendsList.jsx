@@ -17,16 +17,11 @@ import { ChatRoom } from 'src/models'
 function MessageFriendsList({chatroom,userid}) {
     console.log("walking",chatroom,userid)
     const [loading, setloading] = useState(false)
-    // const [userid, setUserid] = useState(null)
+  
     const [userdata, setUserdata] = useState([])
-    // const [chatroom, setChatroom] = useState([])
-    // chatroom may not be needed
+   
     // console.log("object",chatroom)
-    // const [friends, setfriend] = useState([])
-    // const [friendsz, setfriendz] = useState([])
-    // const [friendId, setfriendId] = useState(null)
-    // const [loading, setloading] = useState(false)
-    // const [friendss, setfriendss] = useState([])
+   
     const [id, setId] = useState(null)
 
     

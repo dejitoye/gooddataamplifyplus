@@ -1,12 +1,9 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createMessage = /* GraphQL */ `
-  mutation CreateMessage(
-    $input: CreateMessageInput!
-    $condition: ModelMessageConditionInput
-  ) {
-    createMessage(input: $input, condition: $condition) {
+export const onCreateMessage = /* GraphQL */ `
+  subscription OnCreateMessage {
+    onCreateMessage {
       id
       content
       status
@@ -20,12 +17,9 @@ export const createMessage = /* GraphQL */ `
     }
   }
 `;
-export const updateMessage = /* GraphQL */ `
-  mutation UpdateMessage(
-    $input: UpdateMessageInput!
-    $condition: ModelMessageConditionInput
-  ) {
-    updateMessage(input: $input, condition: $condition) {
+export const onUpdateMessage = /* GraphQL */ `
+  subscription OnUpdateMessage {
+    onUpdateMessage {
       id
       content
       status
@@ -39,12 +33,9 @@ export const updateMessage = /* GraphQL */ `
     }
   }
 `;
-export const deleteMessage = /* GraphQL */ `
-  mutation DeleteMessage(
-    $input: DeleteMessageInput!
-    $condition: ModelMessageConditionInput
-  ) {
-    deleteMessage(input: $input, condition: $condition) {
+export const onDeleteMessage = /* GraphQL */ `
+  subscription OnDeleteMessage {
+    onDeleteMessage {
       id
       content
       status
@@ -58,12 +49,9 @@ export const deleteMessage = /* GraphQL */ `
     }
   }
 `;
-export const createChatRoom = /* GraphQL */ `
-  mutation CreateChatRoom(
-    $input: CreateChatRoomInput!
-    $condition: ModelChatRoomConditionInput
-  ) {
-    createChatRoom(input: $input, condition: $condition) {
+export const onCreateChatRoom = /* GraphQL */ `
+  subscription OnCreateChatRoom {
+    onCreateChatRoom {
       id
       newMessage
       chatType
@@ -117,75 +105,9 @@ export const createChatRoom = /* GraphQL */ `
     }
   }
 `;
-export const updateChatRoom = /* GraphQL */ `
-  mutation UpdateChatRoom(
-    $input: UpdateChatRoomInput!
-    $condition: ModelChatRoomConditionInput
-  ) {
-    updateChatRoom(input: $input, condition: $condition) {
-      id
-      newMessage
-      chatType
-      LastMessage {
-        id
-        content
-        status
-        userID
-        chatroomID
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-      }
-      Messages {
-        items {
-          id
-          content
-          status
-          userID
-          chatroomID
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
-        nextToken
-        startedAt
-      }
-      ChatRoomUsers {
-        items {
-          user{
-            name
-            pix
-          }
-          id
-          chatroomID
-          userID
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
-        nextToken
-        startedAt
-      }
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const deleteChatRoom = /* GraphQL */ `
-  mutation DeleteChatRoom(
-    $input: DeleteChatRoomInput!
-    $condition: ModelChatRoomConditionInput
-  ) {
-    deleteChatRoom(input: $input, condition: $condition) {
+export const onUpdateChatRoom = /* GraphQL */ `
+  subscription OnUpdateChatRoom {
+    onUpdateChatRoom {
       id
       newMessage
       chatType
@@ -239,12 +161,65 @@ export const deleteChatRoom = /* GraphQL */ `
     }
   }
 `;
-export const createUser = /* GraphQL */ `
-  mutation CreateUser(
-    $input: CreateUserInput!
-    $condition: ModelUserConditionInput
-  ) {
-    createUser(input: $input, condition: $condition) {
+export const onDeleteChatRoom = /* GraphQL */ `
+  subscription OnDeleteChatRoom {
+    onDeleteChatRoom {
+      id
+      newMessage
+      chatType
+      LastMessage {
+        id
+        content
+        status
+        userID
+        chatroomID
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
+      Messages {
+        items {
+          id
+          content
+          status
+          userID
+          chatroomID
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
+      ChatRoomUsers {
+        items {
+          id
+          chatroomID
+          userID
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateUser = /* GraphQL */ `
+  subscription OnCreateUser {
+    onCreateUser {
       id
       name
       pix
@@ -288,12 +263,9 @@ export const createUser = /* GraphQL */ `
     }
   }
 `;
-export const updateUser = /* GraphQL */ `
-  mutation UpdateUser(
-    $input: UpdateUserInput!
-    $condition: ModelUserConditionInput
-  ) {
-    updateUser(input: $input, condition: $condition) {
+export const onUpdateUser = /* GraphQL */ `
+  subscription OnUpdateUser {
+    onUpdateUser {
       id
       name
       pix
@@ -337,12 +309,9 @@ export const updateUser = /* GraphQL */ `
     }
   }
 `;
-export const deleteUser = /* GraphQL */ `
-  mutation DeleteUser(
-    $input: DeleteUserInput!
-    $condition: ModelUserConditionInput
-  ) {
-    deleteUser(input: $input, condition: $condition) {
+export const onDeleteUser = /* GraphQL */ `
+  subscription OnDeleteUser {
+    onDeleteUser {
       id
       name
       pix
@@ -386,12 +355,9 @@ export const deleteUser = /* GraphQL */ `
     }
   }
 `;
-export const createChatRoomUser = /* GraphQL */ `
-  mutation CreateChatRoomUser(
-    $input: CreateChatRoomUserInput!
-    $condition: ModelChatRoomUserConditionInput
-  ) {
-    createChatRoomUser(input: $input, condition: $condition) {
+export const onCreateChatRoomUser = /* GraphQL */ `
+  subscription OnCreateChatRoomUser {
+    onCreateChatRoomUser {
       id
       chatroomID
       userID
@@ -453,12 +419,9 @@ export const createChatRoomUser = /* GraphQL */ `
     }
   }
 `;
-export const updateChatRoomUser = /* GraphQL */ `
-  mutation UpdateChatRoomUser(
-    $input: UpdateChatRoomUserInput!
-    $condition: ModelChatRoomUserConditionInput
-  ) {
-    updateChatRoomUser(input: $input, condition: $condition) {
+export const onUpdateChatRoomUser = /* GraphQL */ `
+  subscription OnUpdateChatRoomUser {
+    onUpdateChatRoomUser {
       id
       chatroomID
       userID
@@ -520,12 +483,9 @@ export const updateChatRoomUser = /* GraphQL */ `
     }
   }
 `;
-export const deleteChatRoomUser = /* GraphQL */ `
-  mutation DeleteChatRoomUser(
-    $input: DeleteChatRoomUserInput!
-    $condition: ModelChatRoomUserConditionInput
-  ) {
-    deleteChatRoomUser(input: $input, condition: $condition) {
+export const onDeleteChatRoomUser = /* GraphQL */ `
+  subscription OnDeleteChatRoomUser {
+    onDeleteChatRoomUser {
       id
       chatroomID
       userID

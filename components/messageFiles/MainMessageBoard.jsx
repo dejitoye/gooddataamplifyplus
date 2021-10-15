@@ -50,15 +50,20 @@ const userlistPlusData  = async()=>{
     const user = await Auth.currentAuthenticatedUser()
     setUserid(user)  
     setloading(true)
+    // const bbbb= await DataStore.query(User)
+    // console.log("xzzxxxxxxxx",bbbb)
     const aaa = await API.graphql(graphqlOperation(listUsers))
+    console.log("frrrrrr",aaa)
     setfriend(aaa.data.listUsers.items.filter(f=>f.id !== user.attributes.sub))
     const id = user.attributes.sub
         const result = await API.graphql(graphqlOperation(getUser,{id}))
+        // const sync = result.data.getUser.chatrooms.items.filter(f=>f._deleted !==true)
+        // console.log("rrrrrrrrr",sync)
         console.log("userdata",result.data.getUser)
         setRoomdata(result.data.getUser)
         // dispatch({type:"USERDATA",payload:result.data.getUser})
         setUserdata(result.data.getUser.chatrooms.items)
-        setChatroom(result.data.getUser.chatrooms.items)
+        setChatroom(result.data.getUser.chatrooms.items.filter(f=>f._deleted !==true))
         // userdata?.chatRoomUser?.items
     setloading(false)
     // console.log("aaa",aaa)
@@ -110,7 +115,7 @@ useEffect(() => {
       const newEdit=[...userdata]
       newEdit[getIndex]=ccc
       console.log("new edit",newEdit)
-      setUserdata(newEdit)
+    //   setChatroom(newEdit)
        }
         console.log("filtered",ccc,check)
     }else{
@@ -119,23 +124,23 @@ useEffect(() => {
    
    }, [value]);
 
-   useEffect(() => {
+//    useEffect(() => {
      
-    const subscriptionRoom = API.graphql(graphqlOperation(onUpdateChatRoom)).subscribe({
-        next:({_,value})=>{
+//     const subscriptionRoom = API.graphql(graphqlOperation(onUpdateChatRoom)).subscribe({
+//         next:({_,value})=>{
 
             
-            console.log("value",value.data.onUpdateChatRoom.chatRoomUsers.items)
-            // setValue(value.data.onUpdateChatRoom.chatRoomUsers.items)
+//             console.log("value",value)
+//             // setValue(value.data.onUpdateChatRoom.chatRoomUsers.items)
             
           
-        }
-    })
+//         }
+//     })
   
-    return()=>{
-        subscriptionRoom.unsuscribe()
-    }
- }, [])
+//     return()=>
+//         subscriptionRoom.unsuscribe()
+    
+//  }, [])
 
     return (
         <div className="flex  pt-14 h-screen z-20 relative bg-white ">

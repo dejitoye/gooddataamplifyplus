@@ -36,10 +36,11 @@ const dispatch = useDispatch()
 
   useEffect(() => {
     console.log("message fetched")
+    if(id)
     fetchMessage()
-    dispatch({type:"MYID",payload:id})
+    // dispatch({type:"MYID",payload:id})
 
-  }, [id]);
+  }, [router.query.message]);
 
 
   const fetchMessage = async ()=>{
@@ -131,7 +132,8 @@ console.log("result is :",result)
             {/* {dispuser.map(a=> <IndividualMessageHeader key = {a.id} display={a}/> )} */}
          {dispuser.map(a=>(
            <div>
-             <img src={a.user?.pix} alt="" /> 
+             <img src={a.user?.pix} alt="" />
+             <h1> {a.user.name}</h1>
            </div>
          ))}
           </div>

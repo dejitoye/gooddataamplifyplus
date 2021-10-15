@@ -156,11 +156,11 @@ export const updateChatRoom = /* GraphQL */ `
       }
       ChatRoomUsers {
         items {
+          id
           user{
             name
             pix
           }
-          id
           chatroomID
           userID
           _version
