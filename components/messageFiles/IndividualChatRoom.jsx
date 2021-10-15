@@ -8,20 +8,22 @@ function IndividualChatRoom({chatroom,userid}) {
     console.log("ccc",chatroom)
     const router =useRouter()
 const onChat =()=> {
-router.push(`/messages/${chatroom.chatRoomID}`)
+router.push(`/messages/${chatroom.chatroomID}`)
 }
     const display = ()=>{
        const id = userid.attributes.sub
 
-       const chatusers = chatroom.chatroom.chatRoomUsers.items.filter(c=>c.user.id!== id)
+       const chatusers = chatroom.chatroom.ChatRoomUsers.items.filter(c=>c.user.id!== id)
     //    console.log("chhhhhd",chatusers)
 //  We can map for group functions or isolate the user for individual 
 // I went with mapping incase we want to mix both group and individual together 
 // console.log(id)
      return (
          
-        //  <Link href={`messages/${chatroom.chatRoomID}`}> 
+        //  <Link href={`messages/${chatroom.chatRoomID}`}>
+        <button className=" w-full">
 <div onClick= {onChat}>
+  
         <div className="flex items-center p-4 bg-gray-100 border-b justify-start space-y-4 mb-2 ">
   {/* begining of mapping users */}
   <div>{chatusers.map(m=>(<div key ={m.user.id} className="mb-2">
@@ -35,13 +37,13 @@ router.push(`/messages/${chatroom.chatRoomID}`)
         </div>))} </div>
        {/*end of the mapping of users  */}
         <span> 
-        {chatroom.chatRoom.newMessage}
+        {chatroom.chatroom?.newMessage}
         </span>
-        <span> {chatroom.chatRoom.lastMessage?.content}</span>
+        <span> {chatroom.chatroom.LastMessage?.content}</span>
       
         </div>
         </div>
-        
+        </button>
      )
     }
     return (

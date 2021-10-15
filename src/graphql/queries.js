@@ -290,6 +290,12 @@ export const getUser = /* GraphQL */ `
           createdAt
           updatedAt
           chatroom {
+            LastMessage{
+              content
+              userID
+            }
+            newMessage
+            chatType
             ChatRoomUsers {
               items {
                 user {

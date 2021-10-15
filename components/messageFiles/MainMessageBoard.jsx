@@ -41,7 +41,7 @@ const state = useSelector(state => state.utils.myid)
         // console.log("friend rendered")
       userlistPlusData()
     //   userData()
-    }, [router.query.message])
+    }, [])
 
 
 

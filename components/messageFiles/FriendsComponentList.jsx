@@ -89,7 +89,7 @@ const value= getUserChatroomInfo.length=== 0
     router.push(`/messages/${getUserChatroomInfo[0].chatroom.id}`)
  }else{
      console.log("create a new chat ")
-    createRoom(aaa)
+    // createRoom(aaa)
     // dispatch  ({type:"FRIEND",payload:aaa}) 
  }
 //  console.log("value",value)

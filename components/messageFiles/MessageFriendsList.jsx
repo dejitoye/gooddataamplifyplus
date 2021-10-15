@@ -14,11 +14,12 @@ import { User } from 'src/models'
 import { ChatRoomUser } from 'src/models'
 import { ChatRoom } from 'src/models'
 
-function MessageFriendsList() {
+function MessageFriendsList({chatroom,userid}) {
+    console.log("walking",chatroom,userid)
     const [loading, setloading] = useState(false)
-    const [userid, setUserid] = useState(null)
+    // const [userid, setUserid] = useState(null)
     const [userdata, setUserdata] = useState([])
-    const [chatroom, setChatroom] = useState([])
+    // const [chatroom, setChatroom] = useState([])
     // chatroom may not be needed
     // console.log("object",chatroom)
     // const [friends, setfriend] = useState([])
@@ -40,7 +41,7 @@ function MessageFriendsList() {
         {!chatroom? <h1> loading</h1>: chatroom.length <=0 ? <h1> No chat friends</h1>: 
         
         <div>
-            { userdata?.map((c,i)=> 
+            { chatroom?.map((c,i)=> 
                 // <Link href={`/messages/${c.chatRoomID}`}>
                 <IndividualChatRoom key = {i} chatroom = {c} userid={userid}  />
                 // </Link>
