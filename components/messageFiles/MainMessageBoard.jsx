@@ -17,7 +17,7 @@ import { useSelector } from 'react-redux'
 import { DataStore } from '@aws-amplify/datastore';
 import { User } from 'src/models'
 import { ChatRoomUser } from 'src/models'
-import { getUser, listUsers, syncUsers } from 'src/graphql/queries'
+import { getUser, listUsers, syncUsers } from 'src/mygraphql/queries'
 import { onUpdateChatRoom } from 'src/graphql/subscriptions'
 // import { User } from '../src/models';
 function MainMessageBoard() {

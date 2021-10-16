@@ -8,6 +8,26 @@ export const onCreateMessage = /* GraphQL */ `
       content
       status
       userID
+      user {
+        id
+        name
+        pix
+        status
+        lastOnlineAt
+        Messages {
+          nextToken
+          startedAt
+        }
+        chatrooms {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
       chatroomID
       _version
       _deleted
@@ -24,6 +44,26 @@ export const onUpdateMessage = /* GraphQL */ `
       content
       status
       userID
+      user {
+        id
+        name
+        pix
+        status
+        lastOnlineAt
+        Messages {
+          nextToken
+          startedAt
+        }
+        chatrooms {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
       chatroomID
       _version
       _deleted
@@ -40,6 +80,26 @@ export const onDeleteMessage = /* GraphQL */ `
       content
       status
       userID
+      user {
+        id
+        name
+        pix
+        status
+        lastOnlineAt
+        Messages {
+          nextToken
+          startedAt
+        }
+        chatrooms {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
       chatroomID
       _version
       _deleted
@@ -60,6 +120,18 @@ export const onCreateChatRoom = /* GraphQL */ `
         content
         status
         userID
+        user {
+          id
+          name
+          pix
+          status
+          lastOnlineAt
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
         chatroomID
         _version
         _deleted
@@ -116,6 +188,18 @@ export const onUpdateChatRoom = /* GraphQL */ `
         content
         status
         userID
+        user {
+          id
+          name
+          pix
+          status
+          lastOnlineAt
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
         chatroomID
         _version
         _deleted
@@ -172,6 +256,18 @@ export const onDeleteChatRoom = /* GraphQL */ `
         content
         status
         userID
+        user {
+          id
+          name
+          pix
+          status
+          lastOnlineAt
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
         chatroomID
         _version
         _deleted

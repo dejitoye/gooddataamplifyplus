@@ -1,18 +1,17 @@
+   
 enum MessageStatus {
   SENT
   DELIVERED
   READ
 }
 
-type Message @model @auth(rules: [{allow: public}]) @key(name: "byUser", fields: ["userID"]) @key(name: "byChatRoom", fields: ["chatroomID","createdAt"] ,queryField:"messagesByChatRoom") {
+type Message @model @auth(rules: [{allow: public}]) @key(name: "byUser", fields: ["userID"]) @key(name: "byChatRoom", fields: ["chatroomID"]) {
   id: ID!
   content: String
   status: MessageStatus
-  createdAt:String!
   userID: ID
+   user: User @connection(fields: ["userID"])
   chatroomID: ID
-  user: User @connection(fields: ["userID"])
-   chatroom: ChatRoom @connection(fields: ["chatroomID"])
 }
 
 enum RoomType {

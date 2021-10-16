@@ -13,7 +13,7 @@ router.push(`/messages/${chatroom.chatroomID}`)
     const display = ()=>{
        const id = userid.attributes.sub
 
-       const chatusers = chatroom.chatroom.ChatRoomUsers.items.filter(c=>c.user.id!== id)
+       const chatusers = chatroom.chatroom?.ChatRoomUsers?.items.filter(c=>c.user.id!== id)
        console.log("chhhhhd",chatusers)
 //  We can map for group functions or isolate the user for individual 
 // I went with mapping incase we want to mix both group and individual together 

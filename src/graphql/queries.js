@@ -19,6 +19,18 @@ export const syncMessages = /* GraphQL */ `
         content
         status
         userID
+        user {
+          id
+          name
+          pix
+          status
+          lastOnlineAt
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
         chatroomID
         _version
         _deleted
@@ -38,6 +50,26 @@ export const getMessage = /* GraphQL */ `
       content
       status
       userID
+      user {
+        id
+        name
+        pix
+        status
+        lastOnlineAt
+        Messages {
+          nextToken
+          startedAt
+        }
+        chatrooms {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
       chatroomID
       _version
       _deleted
@@ -59,6 +91,18 @@ export const listMessages = /* GraphQL */ `
         content
         status
         userID
+        user {
+          id
+          name
+          pix
+          status
+          lastOnlineAt
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
         chatroomID
         _version
         _deleted
@@ -130,6 +174,18 @@ export const getChatRoom = /* GraphQL */ `
         content
         status
         userID
+        user {
+          id
+          name
+          pix
+          status
+          lastOnlineAt
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
         chatroomID
         _version
         _deleted
@@ -289,23 +345,6 @@ export const getUser = /* GraphQL */ `
           _lastChangedAt
           createdAt
           updatedAt
-          chatroom {
-            LastMessage{
-              content
-              userID
-            }
-            newMessage
-            chatType
-            ChatRoomUsers {
-              items {
-                user {
-                  id
-                  name
-                  pix
-                }
-              }
-            }
-          }
         }
         nextToken
         startedAt

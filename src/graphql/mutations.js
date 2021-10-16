@@ -11,6 +11,26 @@ export const createMessage = /* GraphQL */ `
       content
       status
       userID
+      user {
+        id
+        name
+        pix
+        status
+        lastOnlineAt
+        Messages {
+          nextToken
+          startedAt
+        }
+        chatrooms {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
       chatroomID
       _version
       _deleted
@@ -30,6 +50,26 @@ export const updateMessage = /* GraphQL */ `
       content
       status
       userID
+      user {
+        id
+        name
+        pix
+        status
+        lastOnlineAt
+        Messages {
+          nextToken
+          startedAt
+        }
+        chatrooms {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
       chatroomID
       _version
       _deleted
@@ -49,6 +89,26 @@ export const deleteMessage = /* GraphQL */ `
       content
       status
       userID
+      user {
+        id
+        name
+        pix
+        status
+        lastOnlineAt
+        Messages {
+          nextToken
+          startedAt
+        }
+        chatrooms {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
       chatroomID
       _version
       _deleted
@@ -72,6 +132,18 @@ export const createChatRoom = /* GraphQL */ `
         content
         status
         userID
+        user {
+          id
+          name
+          pix
+          status
+          lastOnlineAt
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
         chatroomID
         _version
         _deleted
@@ -131,6 +203,18 @@ export const updateChatRoom = /* GraphQL */ `
         content
         status
         userID
+        user {
+          id
+          name
+          pix
+          status
+          lastOnlineAt
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
         chatroomID
         _version
         _deleted
@@ -156,10 +240,6 @@ export const updateChatRoom = /* GraphQL */ `
       }
       ChatRoomUsers {
         items {
-          user{
-            name
-            pix
-          }
           id
           chatroomID
           userID
@@ -194,6 +274,18 @@ export const deleteChatRoom = /* GraphQL */ `
         content
         status
         userID
+        user {
+          id
+          name
+          pix
+          status
+          lastOnlineAt
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
         chatroomID
         _version
         _deleted
