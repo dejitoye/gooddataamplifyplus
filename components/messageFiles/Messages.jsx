@@ -17,6 +17,7 @@ import IndividualMessageDetails from "./IndividualMessageDetails";
 import { User } from "src/models";
 import { ChatRoom } from "src/models";
 import { listMessages } from "src/graphql/queries";
+import { updateChatRoom } from "src/mygraphql/mutations";
 
 function Messages({setChatroom}) {
   const state = useSelector((state) => state.friend.friendlist);
@@ -106,19 +107,19 @@ const sendMessage = async()=>{
 
 const updateLastMessage = async(aaa)=>{
   const resultt= await Auth.currentAuthenticatedUser()
-  // const input = {
+  const input = {
     
-  //   id:id,
-  //   lastMessageID:aaa.data.createMessage.id,
-  //   newMessage:roomDetails.newMessage++,
-  //   userID:resultt.attributes.sub,
+    id:id,
+    chatRoomLastMessageId:aaa.id,
+    // newMessage:roomDetails.newMessage++,
+    // userID:resultt.attributes.sub,
 
-  // }
-// const result =await API.graphql(graphqlOperation(updateChatRoom,{input}))
-const original = await DataStore.query(ChatRoom,id)
-const result = await DataStore.save(ChatRoom.copyOf(original,updateroom=>{
-updateroom.LastMessage=aaa
-}))
+  }
+const result =await API.graphql(graphqlOperation(updateChatRoom,{input}))
+// const original = await DataStore.query(ChatRoom,id)
+// const result = await DataStore.save(ChatRoom.copyOf(original,updateroom=>{
+// updateroom.LastMessage=aaa
+// }))
 // const result = await API.graphql({ query:updateChatRoom, variables: {input: inputt}});
 
 console.log("result is :",result)

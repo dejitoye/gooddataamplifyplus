@@ -18,7 +18,7 @@ import { DataStore } from '@aws-amplify/datastore';
 import { User } from 'src/models'
 import { ChatRoomUser } from 'src/models'
 import { getUser, listUsers, syncUsers } from 'src/mygraphql/queries'
-import { onUpdateChatRoom } from 'src/graphql/subscriptions'
+import { onUpdateChatRoom } from 'src/mygraphql/subscriptions'
 // import { User } from '../src/models';
 function MainMessageBoard() {
     const [friends, setfriend] = useState([])
@@ -124,23 +124,23 @@ useEffect(() => {
    
    }, [value]);
 
-//    useEffect(() => {
+   useEffect(() => {
      
-//     const subscriptionRoom = API.graphql(graphqlOperation(onUpdateChatRoom)).subscribe({
-//         next:({_,value})=>{
+    const subscriptionRoom = API.graphql(graphqlOperation(onUpdateChatRoom)).subscribe({
+        next:({_,value})=>{
 
             
-//             console.log("value",value)
-//             // setValue(value.data.onUpdateChatRoom.chatRoomUsers.items)
+            console.log("value",value)
+            // setValue(value.data.onUpdateChatRoom.chatRoomUsers.items)
             
           
-//         }
-//     })
+        }
+    })
   
-//     return()=>
-//         subscriptionRoom.unsuscribe()
+    return()=>
+        subscriptionRoom.unsuscribe()
     
-//  }, [])
+ }, [])
 
     return (
         <div className="flex  pt-14 h-screen z-20 relative bg-white ">

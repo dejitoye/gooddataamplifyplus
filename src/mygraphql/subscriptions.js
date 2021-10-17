@@ -141,6 +141,7 @@ export const onUpdateChatRoom = /* GraphQL */ `
       }
       ChatRoomUsers {
         items {
+          
           id
           chatroomID
           userID
