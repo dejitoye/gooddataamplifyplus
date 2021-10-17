@@ -103,23 +103,29 @@ const userlistPlusData  = async()=>{
 // we set the subscription value to state and ran useeffect,this method works cos router is always available
 
 useEffect(() => {
+   
     console.log("dzxx",id,chatroom)
     const filterChatRoomId = chatroom.map(r=>r.chatRoomID)
     console.log("filteredroom",filterChatRoomId)
     if(value){
-       
+        add(value,chatroom)
+        const id= value.id
+        // const  sss =  API.graphql(graphqlOperation(getChatRoom,{id}))
+    //    console.log("rrrrrrr",sss)
         // const add = async()=>{
         //     const  sss = await API.graphql(graphqlOperation(getChatRoom,{id}))
         //     console.log("asasasas",sss)
-        //     return sss
+           
         // }
-        //     console.log("return statement",add) 
-
+            // console.log("return statement",add()) 
+          
+        
 
         const ccc = value[0]
      const check =  filterChatRoomId.includes(ccc.chatRoomID) 
 
        if(check){
+        
         const fff = value.map(async f=>{
             const ddd=f.userID
             const bbb = await DataStore.query(User,ddd)
@@ -146,33 +152,44 @@ tht.push(bbb)
     //   setChatroom(newEdit)
        }
         console.log("filtered",ccc,check)
+       
     }else{
         console.log("we need to set the new value of chatroom")
     }
-   
+    
    }, [value]);
 
+   
+
+   const add = async(aaa,bbb)=>{
+    // const id = aaa.data.onUpdateChatRoom.id
+    // const  sss = await API.graphql(graphqlOperation(getChatRoom,{id}))
+    console.log("asasasasvalue",aaa,"ddddroom",bbb)
+    // return sss
+}
    useEffect(() => {
-     
+   
     const subscriptionRoom = API.graphql(graphqlOperation(onUpdateChatRoom)).subscribe({
         next:({_,value})=>{
 
-            
+            console.log("aaaaaavccvv",chatroom)
             console.log("value",value)
             setValue(value.data.onUpdateChatRoom.ChatRoomUsers.items)
             const id = value.data.onUpdateChatRoom.id
-const add = async()=>{
-    const  sss = await API.graphql(graphqlOperation(getChatRoom,{id}))
-    console.log("asasasas",sss)
-    return sss
-}
-    console.log("return statement",add)      
+// const add = async()=>{
+//     const  sss = await API.graphql(graphqlOperation(getChatRoom,{id}))
+//     console.log("asasasas",sss)
+//     // return sss
+// }
+// add(value)
+    // console.log("return statement",add)      
         }
     })
-  
-    return()=>
-        subscriptionRoom.unsuscribe()
     
+    return()=>{
+        subscriptionRoom.unsuscribe()
+       
+    }
  }, [])
 
     return (

@@ -155,6 +155,11 @@ export const getChatRoom = /* GraphQL */ `
       }
       ChatRoomUsers {
         items {
+          user{
+            id
+            pix
+            name
+          }
           id
           chatroomID
           userID
