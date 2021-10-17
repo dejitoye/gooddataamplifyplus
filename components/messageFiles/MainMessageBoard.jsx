@@ -17,7 +17,7 @@ import { useSelector } from 'react-redux'
 import { DataStore } from '@aws-amplify/datastore';
 import { User } from 'src/models'
 import { ChatRoomUser } from 'src/models'
-import { getUser, listUsers, syncUsers } from 'src/mygraphql/queries'
+import { getChatRoom, getUser, listUsers, syncUsers } from 'src/mygraphql/queries'
 import { onUpdateChatRoom } from 'src/mygraphql/subscriptions'
 // import { User } from '../src/models';
 function MainMessageBoard() {
@@ -103,18 +103,46 @@ const userlistPlusData  = async()=>{
 // we set the subscription value to state and ran useeffect,this method works cos router is always available
 
 useEffect(() => {
-    console.log("dzxx",id,userdata)
+    console.log("dzxx",id,chatroom)
     const filterChatRoomId = chatroom.map(r=>r.chatRoomID)
-    console.log(filterChatRoomId)
+    console.log("filteredroom",filterChatRoomId)
     if(value){
+       
+        // const add = async()=>{
+        //     const  sss = await API.graphql(graphqlOperation(getChatRoom,{id}))
+        //     console.log("asasasas",sss)
+        //     return sss
+        // }
+        //     console.log("return statement",add) 
+
+
         const ccc = value[0]
      const check =  filterChatRoomId.includes(ccc.chatRoomID) 
+
        if(check){
-      const getIndex= chatroom.findIndex(f=> f.id===ccc.id)
-      console.log(getIndex)
-      const newEdit=[...userdata]
-      newEdit[getIndex]=ccc
-      console.log("new edit",newEdit)
+        const fff = value.map(async f=>{
+            const ddd=f.userID
+            const bbb = await DataStore.query(User,ddd)
+            console.log("userrrrr",bbb)
+const tht= []
+tht.push(bbb)
+
+            // return ddd
+            console.log("array of",tht)
+            const getIndex= chatroom.findIndex(f=> f.id===ccc.id)
+            console.log("getindex",getIndex)
+            const newEdit=[...chatroom]
+            console.log("new edit",newEdit)
+            newEdit[getIndex].chatroom.ChatRoomUsers.items=tht
+            console.log("cbabab",newEdit)
+
+       })
+    //    console.log("frrrrr",fff)
+    //   const getIndex= chatroom.findIndex(f=> f.id===ccc.id)
+    //   console.log("getindex",getIndex)
+    //   const newEdit=[...chatroom]
+    //   newEdit[getIndex]=ccc
+    //   console.log("new edit",newEdit)
     //   setChatroom(newEdit)
        }
         console.log("filtered",ccc,check)
@@ -131,9 +159,14 @@ useEffect(() => {
 
             
             console.log("value",value)
-            // setValue(value.data.onUpdateChatRoom.chatRoomUsers.items)
-            
-          
+            setValue(value.data.onUpdateChatRoom.ChatRoomUsers.items)
+            const id = value.data.onUpdateChatRoom.id
+const add = async()=>{
+    const  sss = await API.graphql(graphqlOperation(getChatRoom,{id}))
+    console.log("asasasas",sss)
+    return sss
+}
+    console.log("return statement",add)      
         }
     })
   

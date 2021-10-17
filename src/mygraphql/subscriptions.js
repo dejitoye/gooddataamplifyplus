@@ -113,6 +113,11 @@ export const onUpdateChatRoom = /* GraphQL */ `
       chatType
       LastMessage {
         id
+        user{
+          id
+          name
+          pix
+        }
         content
         status
         userID
