@@ -1,8 +1,8 @@
 {
-    "identityPoolName": "tryagainf9b7596c_identitypool_f9b7596c",
+    "identityPoolName": "tryagain2eafbfc3_identitypool_2eafbfc3",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "tryagaf9b7596c",
-    "userPoolName": "tryagainf9b7596c_userpool_f9b7596c",
+    "resourceNameTruncated": "tryaga2eafbfc3",
+    "userPoolName": "tryagain2eafbfc3_userpool_2eafbfc3",
     "autoVerifiedAttributes": [
         "email"
     ],
@@ -29,10 +29,10 @@
     "userpoolClientReadAttributes": [
         "email"
     ],
-    "userpoolClientLambdaRole": "tryagaf9b7596c_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "tryaga2eafbfc3_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "f9b7596c",
-    "resourceName": "tryagainf9b7596c",
+    "sharedId": "2eafbfc3",
+    "resourceName": "tryagain2eafbfc32eafbfc3",
     "authSelections": "identityPoolAndUserPool",
     "authRoleArn": {
         "Fn::GetAtt": [
@@ -46,9 +46,32 @@
             "Arn"
         ]
     },
-    "useDefault": "default",
-    "userPoolGroupList": [],
+    "useDefault": "manual",
+    "thirdPartyAuth": false,
+    "userPoolGroups": true,
+    "adminQueries": false,
+    "triggers": "{\n  \"PostConfirmation\": [\n    \"custom\"\n  ]\n}",
+    "hostedUI": false,
+    "userPoolGroupList": [
+        "Admin"
+    ],
     "serviceName": "Cognito",
     "usernameCaseSensitive": false,
-    "dependsOn": []
+    "parentStack": {
+        "Ref": "AWS::StackId"
+    },
+    "authTriggerConnections": "[\n  {\n    \"triggerType\": \"PostConfirmation\",\n    \"lambdaFunctionName\": \"tryagain2eafbfc32eafbfc3PostConfirmation\"\n  }\n]",
+    "breakCircularDependency": true,
+    "permissions": [],
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "tryagain2eafbfc32eafbfc3PostConfirmation",
+            "triggerProvider": "Cognito",
+            "attributes": [
+                "Arn",
+                "Name"
+            ]
+        }
+    ]
 }

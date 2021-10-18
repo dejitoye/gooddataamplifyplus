@@ -1,16 +1,18 @@
-   
+
 enum MessageStatus {
   SENT
   DELIVERED
   READ
 }
 
-type Message @model @auth(rules: [{allow: public}]) @key(name: "byUser", fields: ["userID"]) @key(name: "byChatRoom", fields: ["chatroomID"]) {
+type Message @model @auth(rules: [
+  {allow: public},
+  {allow:groups,groups:["Admin"]}
+]) @key(name: "byUser", fields: ["userID"]) @key(name: "byChatRoom", fields: ["chatroomID"]) {
   id: ID!
   content: String
   status: MessageStatus
   userID: ID
-   user: User @connection(fields: ["userID"])
   chatroomID: ID
 }
 
@@ -19,7 +21,10 @@ enum RoomType {
   SINGLE
 }
 
-type ChatRoom @model @auth(rules: [{allow: public}]) {
+type ChatRoom @model @auth(rules: [
+  {allow: public},
+  {allow:groups,groups:["Admin"]}
+]) {
   id: ID!
   newMessage: Int
   chatType: RoomType
@@ -28,7 +33,10 @@ type ChatRoom @model @auth(rules: [{allow: public}]) {
   ChatRoomUsers: [ChatRoomUser] @connection(keyName: "byChatRoom", fields: ["id"])
 }
 
-type User @model @auth(rules: [{allow: public}]) {
+type User @model @auth(rules: [
+  {allow: public},
+  {allow:groups,groups:["Admin"]}
+]) {
   id: ID!
   name: String
   pix: String
@@ -38,7 +46,10 @@ type User @model @auth(rules: [{allow: public}]) {
   chatrooms: [ChatRoomUser] @connection(keyName: "byUser", fields: ["id"])
 }
 
-type ChatRoomUser @model @key(name: "byChatRoom", fields: ["chatroomID", "userID"]) @key(name: "byUser", fields: ["userID", "chatroomID"]) @auth(rules: [{allow: public}, {allow: public}]) {
+type ChatRoomUser @model @key(name: "byChatRoom", fields: ["chatroomID", "userID"]) @key(name: "byUser", fields: ["userID", "chatroomID"])@auth(rules: [
+  {allow: public},
+  {allow:groups,groups:["Admin"]}
+]) {
   id: ID!
   chatroomID: ID!
   userID: ID!
