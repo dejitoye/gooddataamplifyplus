@@ -115,11 +115,11 @@ const updateLastMessage = async(aaa)=>{
     // userID:resultt.attributes.sub,
 
   }
-const result =await API.graphql(graphqlOperation(updateChatRoom,{input}))
-// const original = await DataStore.query(ChatRoom,id)
-// const result = await DataStore.save(ChatRoom.copyOf(original,updateroom=>{
-// updateroom.LastMessage=aaa
-// }))
+// const result =await API.graphql(graphqlOperation(updateChatRoom,{input}))
+const original = await DataStore.query(ChatRoom,id)
+const result = await DataStore.save(ChatRoom.copyOf(original,updateroom=>{
+updateroom.LastMessage=aaa
+}))
 // const result = await API.graphql({ query:updateChatRoom, variables: {input: inputt}});
 
 console.log("result is :",result)

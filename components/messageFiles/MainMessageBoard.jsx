@@ -19,6 +19,8 @@ import { User } from 'src/models'
 import { ChatRoomUser } from 'src/models'
 import { getChatRoom, getUser, listUsers, syncUsers } from 'src/mygraphql/queries'
 import { onUpdateChatRoom } from 'src/mygraphql/subscriptions'
+import { ChatRoom } from 'src/models'
+import { Message } from 'src/models'
 // import { User } from '../src/models';
 function MainMessageBoard() {
     const [friends, setfriend] = useState([])
@@ -28,6 +30,7 @@ function MainMessageBoard() {
     const [userdata, setUserdata] = useState(null)
     const [chatroom, setChatroom] = useState([])
     const [value, setValue] = useState(null)
+    const [valuee, setValuee] = useState(null)
 const [aaid,setaaid] = useState(null)
 const [roomdata, setRoomdata] = useState(null)
     const router = useRouter()
@@ -107,9 +110,9 @@ useEffect(() => {
     console.log("dzxx",id,chatroom)
     const filterChatRoomId = chatroom.map(r=>r.chatRoomID)
     console.log("filteredroom",filterChatRoomId)
-    if(value){
-        add(value,chatroom)
-        const id= value.id
+    if(valuee){
+        add(valuee,chatroom)
+        // const id= value.id
         // const  sss =  API.graphql(graphqlOperation(getChatRoom,{id}))
     //    console.log("rrrrrrr",sss)
         // const add = async()=>{
@@ -121,28 +124,28 @@ useEffect(() => {
           
         
 
-        const ccc = value[0]
-     const check =  filterChatRoomId.includes(ccc.chatRoomID) 
+        // const ccc = value[0]
+     const check = " filterChatRoomId.includes(ccc.chatRoomID) "
 
        if(check){
         
-        const fff = value.map(async f=>{
-            const ddd=f.userID
-            const bbb = await DataStore.query(User,ddd)
-            console.log("userrrrr",bbb)
-const tht= []
-tht.push(bbb)
+//         const fff = value.map(async f=>{
+//             const ddd=f.userID
+//             const bbb = await DataStore.query(User,ddd)
+//             console.log("userrrrr",bbb)
+// const tht= []
+// tht.push(bbb)
 
-            // return ddd
-            console.log("array of",tht)
-            const getIndex= chatroom.findIndex(f=> f.id===ccc.id)
-            console.log("getindex",getIndex)
-            const newEdit=[...chatroom]
-            console.log("new edit",newEdit)
-            newEdit[getIndex].chatroom.ChatRoomUsers.items=tht
-            console.log("cbabab",newEdit)
+//             // return ddd
+//             // console.log("array of",tht)
+//             // const getIndex= chatroom.findIndex(f=> f.id===ccc.id)
+//             // console.log("getindex",getIndex)
+//             // const newEdit=[...chatroom]
+//             // console.log("new edit",newEdit)
+//             // newEdit[getIndex].chatroom.ChatRoomUsers.items=tht
+//             // console.log("cbabab",newEdit)
 
-       })
+//        })
     //    console.log("frrrrr",fff)
     //   const getIndex= chatroom.findIndex(f=> f.id===ccc.id)
     //   console.log("getindex",getIndex)
@@ -151,46 +154,85 @@ tht.push(bbb)
     //   console.log("new edit",newEdit)
     //   setChatroom(newEdit)
        }
-        console.log("filtered",ccc,check)
+        // console.log("filtered",ccc,check)
        
     }else{
         console.log("we need to set the new value of chatroom")
     }
     
-   }, [value]);
+   }, [valuee]);
 
    
 
    const add = async(aaa,bbb)=>{
-    // const id = aaa.data.onUpdateChatRoom.id
-    // const  sss = await API.graphql(graphqlOperation(getChatRoom,{id}))
-    console.log("asasasasvalue",aaa,"ddddroom",bbb)
+    const filterChatRoomId = bbb.map(r=>r.chatroomID)
+    console.log("filteredrooaaaaaam",filterChatRoomId)
+    // const id = aaa[0].chatroomID
+    const id = aaa.id
+    const  sss = await API.graphql(graphqlOperation(getChatRoom,{id}))
+    console.log("asasasasvalue",aaa,"ddddroom",bbb,"chatttddd",sss)
+    // const ccc = aaa[0]
+    // const check =  filterChatRoomId.includes(ccc.chatroomID) 
+    const check =  filterChatRoomId.includes(aaa.id) 
+    console.log("cheeeellll",check)
+    if(check){
+        const getIndex= bbb.findIndex(f=> f.chatroomID===aaa.id)
+        // const getIndex= bbb.findIndex(f=> f.id===aaa.id)
+        console.log("getinyyyyydex",getIndex)
+        const newEdit=[...bbb]
+        
+        // newEdit[getIndex].chatroom.ChatRoomUsers.items=sss.data.getChatRoom.ChatRoomUsers.items
+          newEdit[getIndex].chatroom=sss.data.getChatRoom
+          setChatroom(newEdit)
+          console.log("new eddddd",newEdit)
+    }
+   
     // return sss
 }
-   useEffect(() => {
-   
-    const subscriptionRoom = API.graphql(graphqlOperation(onUpdateChatRoom)).subscribe({
-        next:({_,value})=>{
 
-            console.log("aaaaaavccvv",chatroom)
-            console.log("value",value)
-            setValue(value.data.onUpdateChatRoom.ChatRoomUsers.items)
-            const id = value.data.onUpdateChatRoom.id
-// const add = async()=>{
-//     const  sss = await API.graphql(graphqlOperation(getChatRoom,{id}))
-//     console.log("asasasas",sss)
-//     // return sss
-// }
-// add(value)
-    // console.log("return statement",add)      
-        }
-    })
+useEffect(() => {
+    console.log("ran once ")
+const subscription = DataStore.observe(ChatRoom).subscribe(msg => {
+  console.log("subscriptionvvvvvvvvvvvv",msg.model, msg.opType, msg.element)
+  setValuee(msg.element)
+  if(msg.model===Message && msg.opType==="INSERT"){
+    // setValuee(msg.element)
     
-    return()=>{
-        subscriptionRoom.unsuscribe()
+    // setGetMessage(getMessage.push(msg.element))
+    // const nefw = []
+    // nefw.push(msg.element)
+    // console.log("PUSH",nefw)
+    // if(nefw.length>0)
+    
+  }
+})
+return ()=>subscription.unsubscribe
+  }, []);
+
+//    useEffect(() => {
+   
+//     const subscriptionRoom = API.graphql(graphqlOperation(onUpdateChatRoom)).subscribe({
+//         next:({_,value})=>{
+
+//             console.log("aaaaaavccvv",chatroom)
+//             console.log("value",value)
+//             setValue(value.data.onUpdateChatRoom.ChatRoomUsers.items)
+//             const id = value.data.onUpdateChatRoom.id
+// // const add = async()=>{
+// //     const  sss = await API.graphql(graphqlOperation(getChatRoom,{id}))
+// //     console.log("asasasas",sss)
+// //     // return sss
+// // }
+// // add(value)
+//     // console.log("return statement",add)      
+//         }
+//     })
+    
+//     return()=>{
+//         subscriptionRoom.unsuscribe()
        
-    }
- }, [])
+//     }
+//  }, [])
 
     return (
         <div className="flex  pt-14 h-screen z-20 relative bg-white ">
