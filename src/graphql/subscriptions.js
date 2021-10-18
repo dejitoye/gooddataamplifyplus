@@ -6,17 +6,35 @@ export const onCreateMessage = /* GraphQL */ `
     onCreateMessage {
       id
       content
+      status
       userID
       chatroomID
-      image
-      audio
-      status
-      replyToMessageID
       _version
       _deleted
       _lastChangedAt
       createdAt
       updatedAt
+      user {
+        id
+        name
+        pix
+        status
+        email
+        lastOnlineAt
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        Messages {
+          nextToken
+          startedAt
+        }
+        chatrooms {
+          nextToken
+          startedAt
+        }
+      }
     }
   }
 `;
@@ -25,17 +43,35 @@ export const onUpdateMessage = /* GraphQL */ `
     onUpdateMessage {
       id
       content
+      status
       userID
       chatroomID
-      image
-      audio
-      status
-      replyToMessageID
       _version
       _deleted
       _lastChangedAt
       createdAt
       updatedAt
+      user {
+        id
+        name
+        pix
+        status
+        email
+        lastOnlineAt
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        Messages {
+          nextToken
+          startedAt
+        }
+        chatrooms {
+          nextToken
+          startedAt
+        }
+      }
     }
   }
 `;
@@ -44,17 +80,35 @@ export const onDeleteMessage = /* GraphQL */ `
     onDeleteMessage {
       id
       content
+      status
       userID
       chatroomID
-      image
-      audio
-      status
-      replyToMessageID
       _version
       _deleted
       _lastChangedAt
       createdAt
       updatedAt
+      user {
+        id
+        name
+        pix
+        status
+        email
+        lastOnlineAt
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        Messages {
+          nextToken
+          startedAt
+        }
+        chatrooms {
+          nextToken
+          startedAt
+        }
+      }
     }
   }
 `;
@@ -62,32 +116,45 @@ export const onCreateChatRoom = /* GraphQL */ `
   subscription OnCreateChatRoom {
     onCreateChatRoom {
       id
-      newMessages
+      newMessage
+      chatType
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
       LastMessage {
         id
         content
+        status
         userID
         chatroomID
-        image
-        audio
-        status
-        replyToMessageID
         _version
         _deleted
         _lastChangedAt
         createdAt
         updatedAt
+        user {
+          id
+          name
+          pix
+          status
+          email
+          lastOnlineAt
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
       }
       Messages {
         items {
           id
           content
+          status
           userID
           chatroomID
-          image
-          audio
-          status
-          replyToMessageID
           _version
           _deleted
           _lastChangedAt
@@ -111,11 +178,6 @@ export const onCreateChatRoom = /* GraphQL */ `
         nextToken
         startedAt
       }
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -123,32 +185,45 @@ export const onUpdateChatRoom = /* GraphQL */ `
   subscription OnUpdateChatRoom {
     onUpdateChatRoom {
       id
-      newMessages
+      newMessage
+      chatType
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
       LastMessage {
         id
         content
+        status
         userID
         chatroomID
-        image
-        audio
-        status
-        replyToMessageID
         _version
         _deleted
         _lastChangedAt
         createdAt
         updatedAt
+        user {
+          id
+          name
+          pix
+          status
+          email
+          lastOnlineAt
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
       }
       Messages {
         items {
           id
           content
+          status
           userID
           chatroomID
-          image
-          audio
-          status
-          replyToMessageID
           _version
           _deleted
           _lastChangedAt
@@ -172,11 +247,6 @@ export const onUpdateChatRoom = /* GraphQL */ `
         nextToken
         startedAt
       }
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -184,32 +254,45 @@ export const onDeleteChatRoom = /* GraphQL */ `
   subscription OnDeleteChatRoom {
     onDeleteChatRoom {
       id
-      newMessages
+      newMessage
+      chatType
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
       LastMessage {
         id
         content
+        status
         userID
         chatroomID
-        image
-        audio
-        status
-        replyToMessageID
         _version
         _deleted
         _lastChangedAt
         createdAt
         updatedAt
+        user {
+          id
+          name
+          pix
+          status
+          email
+          lastOnlineAt
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
       }
       Messages {
         items {
           id
           content
+          status
           userID
           chatroomID
-          image
-          audio
-          status
-          replyToMessageID
           _version
           _deleted
           _lastChangedAt
@@ -233,11 +316,6 @@ export const onDeleteChatRoom = /* GraphQL */ `
         nextToken
         startedAt
       }
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -246,18 +324,22 @@ export const onCreateUser = /* GraphQL */ `
     onCreateUser {
       id
       name
-      imageUri
+      pix
       status
+      email
+      lastOnlineAt
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
       Messages {
         items {
           id
           content
+          status
           userID
           chatroomID
-          image
-          audio
-          status
-          replyToMessageID
           _version
           _deleted
           _lastChangedAt
@@ -281,12 +363,6 @@ export const onCreateUser = /* GraphQL */ `
         nextToken
         startedAt
       }
-      lastOnlineAt
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -295,18 +371,22 @@ export const onUpdateUser = /* GraphQL */ `
     onUpdateUser {
       id
       name
-      imageUri
+      pix
       status
+      email
+      lastOnlineAt
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
       Messages {
         items {
           id
           content
+          status
           userID
           chatroomID
-          image
-          audio
-          status
-          replyToMessageID
           _version
           _deleted
           _lastChangedAt
@@ -330,12 +410,6 @@ export const onUpdateUser = /* GraphQL */ `
         nextToken
         startedAt
       }
-      lastOnlineAt
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -344,18 +418,22 @@ export const onDeleteUser = /* GraphQL */ `
     onDeleteUser {
       id
       name
-      imageUri
+      pix
       status
+      email
+      lastOnlineAt
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
       Messages {
         items {
           id
           content
+          status
           userID
           chatroomID
-          image
-          audio
-          status
-          replyToMessageID
           _version
           _deleted
           _lastChangedAt
@@ -379,12 +457,6 @@ export const onDeleteUser = /* GraphQL */ `
         nextToken
         startedAt
       }
-      lastOnlineAt
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -394,18 +466,26 @@ export const onCreateChatRoomUser = /* GraphQL */ `
       id
       chatroomID
       userID
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
       chatroom {
         id
-        newMessages
+        newMessage
+        chatType
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
         LastMessage {
           id
           content
+          status
           userID
           chatroomID
-          image
-          audio
-          status
-          replyToMessageID
           _version
           _deleted
           _lastChangedAt
@@ -420,17 +500,19 @@ export const onCreateChatRoomUser = /* GraphQL */ `
           nextToken
           startedAt
         }
+      }
+      user {
+        id
+        name
+        pix
+        status
+        email
+        lastOnlineAt
         _version
         _deleted
         _lastChangedAt
         createdAt
         updatedAt
-      }
-      user {
-        id
-        name
-        imageUri
-        status
         Messages {
           nextToken
           startedAt
@@ -439,18 +521,7 @@ export const onCreateChatRoomUser = /* GraphQL */ `
           nextToken
           startedAt
         }
-        lastOnlineAt
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
       }
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -460,18 +531,26 @@ export const onUpdateChatRoomUser = /* GraphQL */ `
       id
       chatroomID
       userID
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
       chatroom {
         id
-        newMessages
+        newMessage
+        chatType
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
         LastMessage {
           id
           content
+          status
           userID
           chatroomID
-          image
-          audio
-          status
-          replyToMessageID
           _version
           _deleted
           _lastChangedAt
@@ -486,17 +565,19 @@ export const onUpdateChatRoomUser = /* GraphQL */ `
           nextToken
           startedAt
         }
+      }
+      user {
+        id
+        name
+        pix
+        status
+        email
+        lastOnlineAt
         _version
         _deleted
         _lastChangedAt
         createdAt
         updatedAt
-      }
-      user {
-        id
-        name
-        imageUri
-        status
         Messages {
           nextToken
           startedAt
@@ -505,18 +586,7 @@ export const onUpdateChatRoomUser = /* GraphQL */ `
           nextToken
           startedAt
         }
-        lastOnlineAt
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
       }
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -526,18 +596,26 @@ export const onDeleteChatRoomUser = /* GraphQL */ `
       id
       chatroomID
       userID
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
       chatroom {
         id
-        newMessages
+        newMessage
+        chatType
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
         LastMessage {
           id
           content
+          status
           userID
           chatroomID
-          image
-          audio
-          status
-          replyToMessageID
           _version
           _deleted
           _lastChangedAt
@@ -552,17 +630,19 @@ export const onDeleteChatRoomUser = /* GraphQL */ `
           nextToken
           startedAt
         }
+      }
+      user {
+        id
+        name
+        pix
+        status
+        email
+        lastOnlineAt
         _version
         _deleted
         _lastChangedAt
         createdAt
         updatedAt
-      }
-      user {
-        id
-        name
-        imageUri
-        status
         Messages {
           nextToken
           startedAt
@@ -571,18 +651,7 @@ export const onDeleteChatRoomUser = /* GraphQL */ `
           nextToken
           startedAt
         }
-        lastOnlineAt
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
       }
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
     }
   }
 `;

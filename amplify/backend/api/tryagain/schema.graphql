@@ -7,17 +7,21 @@ enum MessageStatus {
 type Message @model @auth(rules: [{allow: public}]) @key(name: "byUser", fields: ["userID"]) @key(name: "byChatRoom", fields: ["chatroomID"]) {
   id: ID!
   content: String
-  userID: ID
-  chatroomID: ID
-  image: String
-  audio: String
   status: MessageStatus
-  replyToMessageID: ID
+  userID: ID
+   user: User @connection(fields: ["userID"])
+  chatroomID: ID
+}
+
+enum RoomType {
+  GROUP
+  SINGLE
 }
 
 type ChatRoom @model @auth(rules: [{allow: public}]) {
   id: ID!
-  newMessages: Int
+  newMessage: Int
+  chatType: RoomType
   LastMessage: Message @connection
   Messages: [Message] @connection(keyName: "byChatRoom", fields: ["id"])
   ChatRoomUsers: [ChatRoomUser] @connection(keyName: "byChatRoom", fields: ["id"])
@@ -25,16 +29,16 @@ type ChatRoom @model @auth(rules: [{allow: public}]) {
 
 type User @model @auth(rules: [{allow: public}]) {
   id: ID!
-  email:String
-  name: String!
-  imageUri: String
+  name: String
+  pix: String
   status: String
+  email:String
+  lastOnlineAt: AWSTimestamp
   Messages: [Message] @connection(keyName: "byUser", fields: ["id"])
   chatrooms: [ChatRoomUser] @connection(keyName: "byUser", fields: ["id"])
-  lastOnlineAt: AWSTimestamp
 }
 
-type ChatRoomUser @model(queries: null) @key(name: "byChatRoom", fields: ["chatroomID", "userID"]) @key(name: "byUser", fields: ["userID", "chatroomID"]) @auth(rules: [{allow: public}, {allow: public}]) {
+type ChatRoomUser @model @key(name: "byChatRoom", fields: ["chatroomID", "userID"]) @key(name: "byUser", fields: ["userID", "chatroomID"]) @auth(rules: [{allow: public}, {allow: public}]) {
   id: ID!
   chatroomID: ID!
   userID: ID!
