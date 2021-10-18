@@ -1,8 +1,8 @@
 {
-    "identityPoolName": "tryagain233b8713_identitypool_233b8713",
+    "identityPoolName": "tryagain65accd4b_identitypool_65accd4b",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "tryaga233b8713",
-    "userPoolName": "tryagain233b8713_userpool_233b8713",
+    "resourceNameTruncated": "tryaga65accd4b",
+    "userPoolName": "tryagain65accd4b_userpool_65accd4b",
     "autoVerifiedAttributes": [
         "email"
     ],
@@ -29,10 +29,10 @@
     "userpoolClientReadAttributes": [
         "email"
     ],
-    "userpoolClientLambdaRole": "tryaga233b8713_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "tryaga65accd4b_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "233b8713",
-    "resourceName": "tryagain233b8713233b8713",
+    "sharedId": "65accd4b",
+    "resourceName": "tryagain65accd4b65accd4b",
     "authSelections": "identityPoolAndUserPool",
     "authRoleArn": {
         "Fn::GetAtt": [
@@ -48,25 +48,23 @@
     },
     "useDefault": "manual",
     "thirdPartyAuth": false,
-    "userPoolGroups": true,
+    "userPoolGroups": false,
     "adminQueries": false,
     "triggers": "{\n  \"PostConfirmation\": [\n    \"custom\"\n  ]\n}",
     "hostedUI": false,
-    "userPoolGroupList": [
-        "Admin"
-    ],
+    "userPoolGroupList": [],
     "serviceName": "Cognito",
     "usernameCaseSensitive": false,
     "parentStack": {
         "Ref": "AWS::StackId"
     },
-    "authTriggerConnections": "[\n  {\n    \"triggerType\": \"PostConfirmation\",\n    \"lambdaFunctionName\": \"tryagain233b8713233b8713PostConfirmation\"\n  }\n]",
+    "authTriggerConnections": "[\n  {\n    \"triggerType\": \"PostConfirmation\",\n    \"lambdaFunctionName\": \"tryagain65accd4b65accd4bPostConfirmation\"\n  }\n]",
     "breakCircularDependency": true,
     "permissions": [],
     "dependsOn": [
         {
             "category": "function",
-            "resourceName": "tryagain233b8713233b8713PostConfirmation",
+            "resourceName": "tryagain65accd4b65accd4bPostConfirmation",
             "triggerProvider": "Cognito",
             "attributes": [
                 "Arn",

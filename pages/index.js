@@ -15,7 +15,7 @@ import { ChatRoom } from 'src/models'
   useEffect(() => {
     const ddd = async()=>{
       const aaa = await Auth.currentAuthenticatedUser()
-     const asa=  await DataStore.start();
+    //  const asa=  await DataStore.start();
      const id = aaa.attributes.sub
       const fffr = await DataStore.query(User,Predicates)
       const fff = await API.graphql(graphqlOperation(getUser,{id}))
@@ -24,7 +24,7 @@ import { ChatRoom } from 'src/models'
       console.log(fffr)
       console.log(aaa)
       console.log("sss",sss)
-      console.log(asa)
+      console.log(id)
     }
     
     
