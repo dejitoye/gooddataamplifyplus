@@ -1,6 +1,6 @@
 {
   "function": {
-    "tryagain2eafbfc32eafbfc3PostConfirmation": {
+    "tryagain233b8713233b8713PostConfirmation": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
@@ -13,7 +13,7 @@
       "dependsOn": [
         {
           "category": "auth",
-          "resourceName": "tryagain2eafbfc32eafbfc3",
+          "resourceName": "tryagain233b8713233b8713",
           "attributes": [
             "UserPoolId",
             "AppClientIDWeb",
@@ -23,13 +23,13 @@
         }
       ]
     },
-    "tryagain2eafbfc32eafbfc3": {
+    "tryagain233b8713233b8713": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [
         {
           "category": "function",
-          "resourceName": "tryagain2eafbfc32eafbfc3PostConfirmation",
+          "resourceName": "tryagain233b8713233b8713PostConfirmation",
           "triggerProvider": "Cognito",
           "attributes": [
             "Arn",
@@ -56,31 +56,6 @@
         "verificationMechanisms": [
           "EMAIL"
         ]
-      }
-    }
-  },
-  "api": {
-    "tryagain": {
-      "service": "AppSync",
-      "providerPlugin": "awscloudformation",
-      "output": {
-        "authConfig": {
-          "defaultAuthentication": {
-            "authenticationType": "AMAZON_COGNITO_USER_POOLS",
-            "userPoolConfig": {
-              "userPoolId": "authtryagain2eafbfc32eafbfc3"
-            }
-          },
-          "additionalAuthenticationProviders": [
-            {
-              "authenticationType": "API_KEY",
-              "apiKeyConfig": {
-                "apiKeyExpirationDays": 365,
-                "description": ""
-              }
-            }
-          ]
-        }
       }
     }
   }

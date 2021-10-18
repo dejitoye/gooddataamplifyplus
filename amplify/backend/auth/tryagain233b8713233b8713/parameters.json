@@ -1,8 +1,8 @@
 {
-    "identityPoolName": "tryagain2eafbfc3_identitypool_2eafbfc3",
+    "identityPoolName": "tryagain233b8713_identitypool_233b8713",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "tryaga2eafbfc3",
-    "userPoolName": "tryagain2eafbfc3_userpool_2eafbfc3",
+    "resourceNameTruncated": "tryaga233b8713",
+    "userPoolName": "tryagain233b8713_userpool_233b8713",
     "autoVerifiedAttributes": [
         "email"
     ],
@@ -29,10 +29,10 @@
     "userpoolClientReadAttributes": [
         "email"
     ],
-    "userpoolClientLambdaRole": "tryaga2eafbfc3_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "tryaga233b8713_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "2eafbfc3",
-    "resourceName": "tryagain2eafbfc32eafbfc3",
+    "sharedId": "233b8713",
+    "resourceName": "tryagain233b8713233b8713",
     "authSelections": "identityPoolAndUserPool",
     "authRoleArn": {
         "Fn::GetAtt": [
@@ -60,13 +60,13 @@
     "parentStack": {
         "Ref": "AWS::StackId"
     },
-    "authTriggerConnections": "[\n  {\n    \"triggerType\": \"PostConfirmation\",\n    \"lambdaFunctionName\": \"tryagain2eafbfc32eafbfc3PostConfirmation\"\n  }\n]",
+    "authTriggerConnections": "[\n  {\n    \"triggerType\": \"PostConfirmation\",\n    \"lambdaFunctionName\": \"tryagain233b8713233b8713PostConfirmation\"\n  }\n]",
     "breakCircularDependency": true,
     "permissions": [],
     "dependsOn": [
         {
             "category": "function",
-            "resourceName": "tryagain2eafbfc32eafbfc3PostConfirmation",
+            "resourceName": "tryagain233b8713233b8713PostConfirmation",
             "triggerProvider": "Cognito",
             "attributes": [
                 "Arn",

@@ -11,10 +11,10 @@
     "userpoolArn": {
       "Type": "String"
     },
-    "functiontryagain2eafbfc32eafbfc3PostConfirmationName": {
+    "functiontryagain233b8713233b8713PostConfirmationName": {
       "Type": "String"
     },
-    "functiontryagain2eafbfc32eafbfc3PostConfirmationArn": {
+    "functiontryagain233b8713233b8713PostConfirmationArn": {
       "Type": "String"
     }
   },
@@ -34,7 +34,7 @@
       "Properties": {
         "Action": "lambda:InvokeFunction",
         "FunctionName": {
-          "Ref": "functiontryagain2eafbfc32eafbfc3PostConfirmationName"
+          "Ref": "functiontryagain233b8713233b8713PostConfirmationName"
         },
         "Principal": "cognito-idp.amazonaws.com",
         "SourceArn": {
@@ -134,9 +134,9 @@
         "lambdaConfig": [
           {
             "triggerType": "PostConfirmation",
-            "lambdaFunctionName": "tryagain2eafbfc32eafbfc3PostConfirmation",
+            "lambdaFunctionName": "tryagain233b8713233b8713PostConfirmation",
             "lambdaFunctionArn": {
-              "Ref": "functiontryagain2eafbfc32eafbfc3PostConfirmationArn"
+              "Ref": "functiontryagain233b8713233b8713PostConfirmationArn"
             }
           }
         ]
