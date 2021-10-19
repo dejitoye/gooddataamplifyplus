@@ -8,7 +8,7 @@ import { User } from 'src/models'
 import { DataStore,Predicates } from '@aws-amplify/datastore'
 import { useEffect } from 'react'
 import { getUser, listUsers } from 'src/graphql/queries'
-import { API,graphqlOperation,Auth } from "aws-amplify"
+import { API,graphqlOperation,Auth,Hub } from "aws-amplify"
 import { ChatRoom } from 'src/models'
  function Home() {
 
@@ -31,6 +31,10 @@ import { ChatRoom } from 'src/models'
  
    ddd()
   }, [])
+
+
+ 
+
   return (
  <FullBar/>
   )

@@ -42,34 +42,36 @@ const dispatch = useDispatch()
   }, [router.query.message]);
 
 
-  useEffect(() => {
+  // useEffect(() => {
   
   
-    const listener = Hub.listen('datastore', async hubData => {
-      const  { event, data } = hubData.payload;
-      console.log("datastore event ",event)
-      console.log("datastore data ",data)
-      if (event === 'networkStatus') {
-        console.log(`User has a network connection: ${data.active}`)
-        console.log('User has a network',data)
-      }
-      if(event=== "outboxMutationProcessed")
-      console.log("mutation sync with cloud",data)
-      // if(data.model===Message){
-        //  DataStore.save(
-        //   Message.copyOf(data.element,(updated)=>{
-        //     updated.status ="DELIVERED"
-        //   })
-        // )
-      // }
-    })
+  //   const listener = Hub.listen('datastore', async hubData => {
+  //     const  { event, data } = hubData.payload;
+  //     console.log("datastore event ",event)
+  //     console.log("datastore data ",data)
+  //     if (event === 'networkStatus') {
+  //       console.log(`User has a network connection: ${data.active}`)
+  //       console.log('User has a network',data)
+  //     }
+  //     if(event=== "outboxMutationProcessed"){
+  //     console.log(`mutation sync with cloud: ${data}`)
+  //     console.log("mutation sync with cloud:," ,data.model)
+  //     if(data.model===Message){
+  //        DataStore.save(
+  //         Message.copyOf(data.element,(updated)=>{
+  //           updated.status ="DELIVERED"
+  //         })
+  //       )
+  //     }
+  //   }
+  //   })
     
   
-    // Remove listener
-  return ()=>listener();
+  //   // Remove listener
+  // return ()=>listener();
     
   
-  }, [])
+  // }, [])
 
   const fetchMessage = async ()=>{
     const userid= await Auth.currentAuthenticatedUser() 
@@ -94,19 +96,19 @@ useEffect(() => {
 //  console.log("sssddddddd",id,getMessage,value)
 //  const id = value.id
 
- if(value&& value.chatroomID===id){
+ if(value&& value.element.chatroomID===id){
   subMesage(value,id)
-  //  console.log("NA SOOOOOOOOOOO",value)
+   console.log("NA SOOOOOOOOOOO",value)
     // setGetMessage(old=>[...old,value])
   }
 }, [value])
 
 
 const subMesage= async(aaa,bbb)=>{
-  const id = aaa.id
+  const id = aaa.element.id
 const ddd = await DataStore.query(Message,id)
 // console.log("individual",ddd,bbb)
-if (aaa.chatroomID===bbb){
+if (aaa.element.chatroomID===bbb){
   setGetMessage(old=>[...old,ddd])
 }
 }
@@ -135,7 +137,7 @@ if (aaa.chatroomID===bbb){
 const subscription = DataStore.observe(Message).subscribe(msg => {
   // console.log("subscription",msg.model, msg.opType, msg.element)
   if(msg.model===Message && msg.opType==="INSERT"){
-    setValue(msg.element)
+    setValue(msg)
     
     
   }
