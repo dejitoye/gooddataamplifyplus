@@ -4,11 +4,8 @@ import { useRouter } from "next/dist/client/router";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import IndividualMessageHeader from "./IndividualMessageHeader";
-import { API,graphqlOperation,Auth } from 'aws-amplify'
-// import { createMessage } from "src/graphql/mutations";
-// import IndividualMessageHeader from "./IndividualMessageHeader";
-// import { updateChatRoom } from "graphlqlhooks/myMutations";
-// import { onUpdateChatRoomMe } from "graphlqlhooks/mySubscriptions";
+import { API,graphqlOperation,Auth,Hub } from 'aws-amplify'
+
 import { DataStore, SortDirection } from '@aws-amplify/datastore';
 import { Message as GetMessages } from "src/models";
 import { Message  } from "src/models";
@@ -17,7 +14,8 @@ import IndividualMessageDetails from "./IndividualMessageDetails";
 import { User } from "src/models";
 import { ChatRoom } from "src/models";
 import { listMessages } from "src/graphql/queries";
-import { updateChatRoom } from "src/mygraphql/mutations";
+import { createMessage, updateChatRoom } from "src/mygraphql/mutations";
+import { onCreateMessage } from "src/mygraphql/subscriptions";
 
 function Messages({setChatroom}) {
   const state = useSelector((state) => state.friend.friendlist);
@@ -30,7 +28,7 @@ function Messages({setChatroom}) {
   const [value, setValue] = useState(null)
   const router=useRouter()
   // console.log("routerMessage",router)
-  console.log("dip",getMessage)
+  // console.log("dip",getMessage)
 const id = router.query.message
 
 const dispatch = useDispatch()
@@ -44,6 +42,35 @@ const dispatch = useDispatch()
   }, [router.query.message]);
 
 
+  useEffect(() => {
+  
+  
+    const listener = Hub.listen('datastore', async hubData => {
+      const  { event, data } = hubData.payload;
+      console.log("datastore event ",event)
+      console.log("datastore data ",data)
+      if (event === 'networkStatus') {
+        console.log(`User has a network connection: ${data.active}`)
+        console.log('User has a network',data)
+      }
+      if(event=== "outboxMutationProcessed")
+      console.log("mutation sync with cloud",data)
+      // if(data.model===Message){
+        //  DataStore.save(
+        //   Message.copyOf(data.element,(updated)=>{
+        //     updated.status ="DELIVERED"
+        //   })
+        // )
+      // }
+    })
+    
+  
+    // Remove listener
+  return ()=>listener();
+    
+  
+  }, [])
+
   const fetchMessage = async ()=>{
     const userid= await Auth.currentAuthenticatedUser() 
 const model = await DataStore.query(GetMessages,message=>message.chatroomID("eq",id),{
@@ -51,11 +78,11 @@ const model = await DataStore.query(GetMessages,message=>message.chatroomID("eq"
 })
 const mass = await API.graphql(graphqlOperation(listMessages))
 const aaa= mass.data.listMessages.items.filter(m=>m.chatroomID===id)
-console.log("mass",aaa)
+// console.log("mass",aaa)
 // const model = await DataStore.query(GetMessages)
 const datauser= await (await DataStore.query(ChatRoomUser)).filter(a=>a.chatroom.id===id).filter(a=>a.user.id!==userid.attributes.sub)
 
-console.log("datauser",datauser)
+// console.log("datauser",datauser)
 setDisplayuser(datauser)
 // const model = await DataStore.query(GetMessages,Predicates.ALL,{ message=>message.chatroomID("eq",id),sortDirection})
 setGetMessage(model)
@@ -64,30 +91,52 @@ console.log("model fet",model)
   }
 
 useEffect(() => {
- console.log("sssddddddd",id,getMessage,value)
+//  console.log("sssddddddd",id,getMessage,value)
+//  const id = value.id
+
  if(value&& value.chatroomID===id){
-   console.log("NA SOOOOOOOOOOO")
-    setGetMessage(old=>[...old,value])
+  subMesage(value,id)
+  //  console.log("NA SOOOOOOOOOOO",value)
+    // setGetMessage(old=>[...old,value])
   }
 }, [value])
+
+
+const subMesage= async(aaa,bbb)=>{
+  const id = aaa.id
+const ddd = await DataStore.query(Message,id)
+// console.log("individual",ddd,bbb)
+if (aaa.chatroomID===bbb){
+  setGetMessage(old=>[...old,ddd])
+}
+}
+
+// useEffect(() => {
+   
+//   const subscriptionRoom = API.graphql(graphqlOperation(onCreateMessage)).subscribe({
+//       next:({_,value})=>{
+
+//           // console.log("aaaaaavccvv",chatroom)
+//           console.log("valueeeeeeeeee",value.data.onCreateMessage)
+         
+//           setValue(value.data.onCreateMessage)
+//           // const id = value.data.onUpdateChatRoom.id
+  
+//       }
+//   })
+  
+//   return()=>{
+//       subscriptionRoom.unsuscribe()
+//     }
+//   }, [])
 
   useEffect(() => {
     console.log("ran once ")
 const subscription = DataStore.observe(Message).subscribe(msg => {
-  console.log("subscription",msg.model, msg.opType, msg.element)
+  // console.log("subscription",msg.model, msg.opType, msg.element)
   if(msg.model===Message && msg.opType==="INSERT"){
     setValue(msg.element)
-    // console.log("sdddffffff",id)
-    // if(msg.element.chatRoomID===id){
-    //   setGetMessage(old=>[...old,msg.element])
-    // }
-   
     
-    // setGetMessage(getMessage.push(msg.element))
-    // const nefw = []
-    // nefw.push(msg.element)
-    // console.log("PUSH",nefw)
-    // if(nefw.length>0)
     
   }
 })
@@ -99,11 +148,12 @@ return ()=>subscription.unsubscribe
 
 
 const sendMessage = async()=>{
+
   const resultt= await Auth.currentAuthenticatedUser()
   const input={
     content:message,
     userID:resultt.attributes.sub,
-    chatRoomID:id
+    chatroomID:id
     }
     
   // const result = await API.graphql(graphqlOperation(createMessage,{input}))
@@ -112,7 +162,7 @@ const sendMessage = async()=>{
     userID:resultt.attributes.sub,
     chatroomID:id
   }))
-  console.log("message sent",result,input)
+  // console.log("message sent",result,input)
   updateLastMessage(result)
   setMessage("")
 }
@@ -135,7 +185,7 @@ updateroom.LastMessage=aaa
 }))
 // const result = await API.graphql({ query:updateChatRoom, variables: {input: inputt}});
 
-console.log("result is :",result)
+// console.log("result is :",result)
 }
 
   if(!router.query.message) return <h1> start a convo </h1>

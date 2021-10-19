@@ -1,0 +1,32 @@
+// useEffect(() => {
+//     const susbcriptionCreate = API.graphql(graphqlOperation(onCreatePost)).subscribe({
+//       next: ({ provider, value }) => {
+//         console.log("vallue",value)
+//         dispatch({ type: "FETCH", payload: [value.data.onCreatePost] });
+//         setPosts((old)=>[value.data.onCreatePost,...old])
+//       },
+//     });
+  
+//     const subscriptionUpdate = API.graphql(
+//       graphqlOperation(onUpdatePost)
+//     ).subscribe({
+//       next: ({ provider, value }) => {
+//         console.log("updats sub", value);
+//        const indexm = posts.findIndex(f=>f.id===value.data.onUpdatePost.id)
+//         // dispatch({ type: "UPDATE-SUB", payload: value.data.onUpdatePost });
+//         console.log("update indexxx",indexm)
+//         const newEdit = [...posts]
+//         newEdit[indexm]=value.data.onUpdatePost
+//         setPosts(newEdit)
+//       },
+//     });
+//     return () => {
+//       subscriptionCreate.unsubscribe();
+//       // subscriptionDelete.unsubscribe();
+//       subscriptionUpdate.unsubscribe();
+//       // subscriptionCreateComment.unsubscribe(); 
+//     };
+//   }, [])
+
+
+// we set the subscription value to state and ran useeffect,this method works cos router is always available

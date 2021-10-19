@@ -32,7 +32,9 @@ function MessageFriendsList({chatroom,userid}) {
                <input type="text" className = "search" placeholder="search for friends"/>
                {/* <SearchUtil/> */}
            </div>
-
+           <div> 
+               <button className="rounded-md bg-gray-400 shadow-2xl px-2 py-1 m-2"> create group</button>
+           </div>
         {!chatroom? <h1> loading</h1>: chatroom.length <=0 ? <h1> No chat friends</h1>: 
         
         <div>

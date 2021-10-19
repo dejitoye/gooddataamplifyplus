@@ -11,6 +11,11 @@ export const createMessage = /* GraphQL */ `
       content
       status
       userID
+      user{
+        id
+        name
+        pix
+      }
       chatroomID
       _version
       _deleted
@@ -30,6 +35,11 @@ export const updateMessage = /* GraphQL */ `
       content
       status
       userID
+      user{
+        id
+        name
+        pix
+      }
       chatroomID
       _version
       _deleted

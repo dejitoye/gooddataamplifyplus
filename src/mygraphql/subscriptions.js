@@ -8,6 +8,11 @@ export const onCreateMessage = /* GraphQL */ `
       content
       status
       userID
+      user{
+        id
+        pix
+        name
+      }
       chatroomID
       _version
       _deleted

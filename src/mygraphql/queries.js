@@ -38,6 +38,11 @@ export const getMessage = /* GraphQL */ `
       content
       status
       userID
+      user{
+        id
+        name
+        pix
+      }
       chatroomID
       _version
       _deleted

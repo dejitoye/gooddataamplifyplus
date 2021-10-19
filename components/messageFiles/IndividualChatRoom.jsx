@@ -12,7 +12,7 @@ router.push(`/messages/${chatroom.chatroomID}`)
 }
 
 const check=chatroom?.chatroom?.LastMessage?.user?.id===userid.attributes.sub
-console.log("YESSSSSSSOOOOO",check)
+// console.log("YESSSSSSSOOOOO",check)
     const display = ()=>{
        const id = userid.attributes.sub
 
