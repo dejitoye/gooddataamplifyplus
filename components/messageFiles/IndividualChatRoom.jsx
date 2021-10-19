@@ -5,16 +5,18 @@ import Image from "next/image"
 import { useRouter } from 'next/dist/client/router'
 
 function IndividualChatRoom({chatroom,userid}) {
-    console.log("ccc",chatroom)
+    // console.log("ccc",chatroom,userid)
     const router =useRouter()
 const onChat =()=> {
 router.push(`/messages/${chatroom.chatroomID}`)
 }
+
+// const check=chatroom.chatroom.LastMessage?.user?.id===userid.attributes.sub
     const display = ()=>{
        const id = userid.attributes.sub
 
-       const chatusers = chatroom.chatroom?.ChatRoomUsers?.items.filter(c=>c.user.id!== id)
-       console.log("chhhhhd",chatusers)
+       const chatusers = chatroom?.chatroom?.ChatRoomUsers?.items.filter(c=>c.user.id!== id)
+      //  console.log("chhhhhd",chatusers)
 //  We can map for group functions or isolate the user for individual 
 // I went with mapping incase we want to mix both group and individual together 
 // console.log(id)

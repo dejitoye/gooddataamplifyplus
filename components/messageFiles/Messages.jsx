@@ -63,12 +63,25 @@ setGetMessage(model)
 console.log("model fet",model)
   }
 
+useEffect(() => {
+ console.log("sssddddddd",id,getMessage,value)
+ if(value&& value.chatroomID===id){
+   console.log("NA SOOOOOOOOOOO")
+    setGetMessage(old=>[...old,value])
+  }
+}, [value])
+
   useEffect(() => {
     console.log("ran once ")
 const subscription = DataStore.observe(Message).subscribe(msg => {
   console.log("subscription",msg.model, msg.opType, msg.element)
   if(msg.model===Message && msg.opType==="INSERT"){
-    setGetMessage(old=>[...old,msg.element])
+    setValue(msg.element)
+    // console.log("sdddffffff",id)
+    // if(msg.element.chatRoomID===id){
+    //   setGetMessage(old=>[...old,msg.element])
+    // }
+   
     
     // setGetMessage(getMessage.push(msg.element))
     // const nefw = []
@@ -132,7 +145,7 @@ console.log("result is :",result)
           <div >
             {/* {dispuser.map(a=> <IndividualMessageHeader key = {a.id} display={a}/> )} */}
          {dispuser.map(a=>(
-           <div>
+           <div key={a.id}>
              <img src={a.user?.pix} alt="" />
              <h1> {a.user.name}</h1>
            </div>
