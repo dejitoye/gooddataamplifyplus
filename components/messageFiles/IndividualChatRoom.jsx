@@ -11,7 +11,8 @@ const onChat =()=> {
 router.push(`/messages/${chatroom.chatroomID}`)
 }
 
-// const check=chatroom.chatroom.LastMessage?.user?.id===userid.attributes.sub
+const check=chatroom?.chatroom?.LastMessage?.user?.id===userid.attributes.sub
+console.log("YESSSSSSSOOOOO",check)
     const display = ()=>{
        const id = userid.attributes.sub
 
@@ -41,7 +42,7 @@ router.push(`/messages/${chatroom.chatroomID}`)
         <span> 
         {chatroom.chatroom?.newMessage}
         </span>
-        <span> {chatroom.chatroom.LastMessage?.content}</span>
+      {!check &&  <span> {chatroom.chatroom.LastMessage?.content}</span>}
       
         </div>
         </div>

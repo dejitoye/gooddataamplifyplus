@@ -201,7 +201,7 @@ console.log("chekuserrrrooo",checkUser)
           console.log("new eddddd",newEdit)
     }
     else if ( !check && ddd.opType==="UPDATE"&& checkUser ) {
-        setChatroom((old)=>[...old,sss])
+        setChatroom((old)=>[...old,sssj[0]])
    
      console.log("we need to set the new value of chatroom")
      return

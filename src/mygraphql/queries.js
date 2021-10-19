@@ -298,6 +298,12 @@ export const getUser = /* GraphQL */ `
             LastMessage{
               content
               userID
+              user{
+                id
+                name
+                pix
+                status
+              }
             }
             newMessage
             chatType
