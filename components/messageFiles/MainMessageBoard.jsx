@@ -66,8 +66,11 @@ const userlistPlusData  = async()=>{
         console.log("userdata",result.data.getUser)
         setRoomdata(result.data.getUser)
         // dispatch({type:"USERDATA",payload:result.data.getUser})
+if (!result.data.getUser.chatrooms ){
+    setloading(false)
+}
         setUserdata(result.data.getUser.chatrooms.items)
-        setChatroom(result.data.getUser.chatrooms.items.filter(f=>f._deleted !==true))
+        setChatroom(result?.data?.getUser?.chatrooms?.items?.filter(f=>f._deleted !==true))
         // userdata?.chatRoomUser?.items
     setloading(false)
     // console.log("aaa",aaa)
@@ -188,7 +191,7 @@ console.log("chekuserrrrooo",checkUser)
     // const check =  filterChatRoomId.includes(ccc.chatroomID) 
     const check =  filterChatRoomId.includes(aaa.id) 
     console.log("cheeeellll",check)
-    if(check&& ddd.opType==="UPDATE"){
+    if(check ){
         const getIndex= bbb.findIndex(f=> f.chatroomID===aaa.id)
         // const getIndex= bbb.findIndex(f=> f.id===aaa.id)
         console.log("getinyyyyydex",getIndex)
@@ -200,7 +203,7 @@ console.log("chekuserrrrooo",checkUser)
           setChatroom(newEdit)
           console.log("new eddddd",newEdit)
     }
-    else if ( !check && ddd.opType==="UPDATE"&& checkUser ) {
+    else if ( !check && checkUser ) {
         setChatroom((old)=>[...old,sssj[0]])
    
      console.log("we need to set the new value of chatroom")
@@ -211,15 +214,15 @@ console.log("chekuserrrrooo",checkUser)
 }
 
 useEffect(() => {
-    console.log("ran once ")
+    console.log("ranttttttt once ")
 const subscription = DataStore.observe(ChatRoom).subscribe(msg => {
   console.log("subscriptionvvvvvvvvvvvv",msg.model, msg.opType, msg.element)
   console.log("wonderfullll",msg)
  
   if(msg.model===ChatRoom && msg.opType==="UPDATE"){
       console.log("UPDATTTTTTTEEEEEE")
-    setValueet(msg)
-    setValuee(msg.element)
+    // setValueet(msg)
+    // setValuee(msg.element)
     // setValuee(msg.element)
     
     // setGetMessage(getMessage.push(msg.element))
@@ -233,30 +236,31 @@ const subscription = DataStore.observe(ChatRoom).subscribe(msg => {
 return ()=>subscription.unsubscribe
   }, []);
 
-//    useEffect(() => {
+   useEffect(() => {
    
-//     const subscriptionRoom = API.graphql(graphqlOperation(onUpdateChatRoom)).subscribe({
-//         next:({_,value})=>{
+    const subscriptionRoom = API.graphql(graphqlOperation(onUpdateChatRoom)).subscribe({
+        next:({_,value})=>{
 
-//             console.log("aaaaaavccvv",chatroom)
-//             console.log("value",value)
-//             setValue(value.data.onUpdateChatRoom.ChatRoomUsers.items)
-//             const id = value.data.onUpdateChatRoom.id
-// // const add = async()=>{
-// //     const  sss = await API.graphql(graphqlOperation(getChatRoom,{id}))
-// //     console.log("asasasas",sss)
-// //     // return sss
-// // }
-// // add(value)
-//     // console.log("return statement",add)      
-//         }
-//     })
+            // console.log("aaaaaavccvv",chatroom)
+            console.log("value",value)
+            // setValue(value.data.onUpdateChatRoom.ChatRoomUsers.items)
+            setValuee(value.data.onUpdateChatRoom)
+            const id = value.data.onUpdateChatRoom.id
+// const add = async()=>{
+//     const  sss = await API.graphql(graphqlOperation(getChatRoom,{id}))
+//     console.log("asasasas",sss)
+//     // return sss
+// }
+// add(value)
+    // console.log("return statement",add)      
+        }
+    })
     
-//     return()=>{
-//         subscriptionRoom.unsuscribe()
+    return()=>{
+        subscriptionRoom.unsuscribe()
        
-//     }
-//  }, [])
+    }
+ }, [])
 
     return (
         <div className="flex  pt-14 h-screen z-20 relative bg-white ">
