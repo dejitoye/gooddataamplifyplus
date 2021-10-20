@@ -5,23 +5,23 @@ import { useEffect } from 'react'
 import { DataStore } from '@aws-amplify/datastore';
 import {User} from "../../src/models"
 import IndividualMessageHeader from './IndividualMessageHeader';
-import { MailOpenIcon } from '@heroicons/react/outline';
+import { CheckIcon, MailIcon, MailOpenIcon } from '@heroicons/react/outline';
 
 import { Message } from 'src/models';
 function IndividualMessageDetails(props) {
 // console.log("messageee",message)
  const [users,setUsers] = useState(null)
  const [id,setId] = useState(null)
- const [user,setUser] = useState(false)
+ const [user,setUser] = useState(null)
  const [message, setMessage] = useState(props.message)
 console.log("true user ",user)
-
+console.log("MeSSAGE",message)
 // we created a state for message so we can store the value of the updated messge 
 
 useEffect(() => {
     console.log("ran once ")
 const subscription = DataStore.observe(Message,message.id).subscribe(msg => {
-  console.log("subscription",msg.model, msg.opType, msg.element)
+//   console.log("subscription",msg.model, msg.opType, msg.element)
   if(msg.model===Message && msg.opType==="UPDATE"){
       console.log("blabalbal",message)
     setMessage((message)=>({...message,...msg.element}))
@@ -31,13 +31,25 @@ const subscription = DataStore.observe(Message,message.id).subscribe(msg => {
 })
 return ()=>subscription.unsubscribe
   }, []);
+useEffect(() => {
+   setMsgAsRead() 
+}, [user,message])
 
+const setMsgAsRead = async()=>{
+    console.log("uerssss",user)
+if(user===false && message.status !=="READ"){
+await DataStore.save(Message.copyOf(message,(updated)=>updated.status="READ"))
+}
+}
 
  useEffect(() => {
      const verify=async ()=>{
         const userid= await Auth.currentAuthenticatedUser() 
+        // we use or msg.use.id cos d subscription brings diff value
 if(message.userID === userid.attributes.sub|| message.user.id===userid.attributes.sub){
     setUser(true)
+}else if (message.userID !== userid.attributes.sub|| message.user.id!==userid.attributes.sub){
+setUser(false)
 }
      }
   verify()
@@ -64,7 +76,9 @@ userHeader()
          {/* {users&&   <img src={users?.pix} className=" h-8 w-8 rounded-full"/>} */}
             <img src={message.user?.pix} className=" h-8 w-8 rounded-full"/>
             <h1 > {message.content}</h1>
-         { message.status==="DELIVERED"&&  <MailOpenIcon className=" ml-4 w-4 h-4" />}
+         {/* { message.status==="DELIVERED"?  <MailIcon className=" ml-4 w-4 h-4 text-blue-300" />:message.status==="READ" ? <CheckIcon className=" ml-4 w-4 h-4 text-blue-300" />:null} */}
+         { message.status==="DELIVERED"?  <CheckIcon className=" ml-4 w-4 h-4 text-blue-700" />:message.status==="READ" ? <CheckIcon className=" ml-4 w-4 h-4 text-blue-300" />:null}
+
             </div>
             </div>
             {/* <IndividualMessageHeader users={users} id={id}/> */}

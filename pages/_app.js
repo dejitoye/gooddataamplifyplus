@@ -27,16 +27,16 @@ function MyApp({ Component, pageProps }) {
         console.log(`User has a network connection: ${data.active}`)
         console.log('User has a network',data)
       }
-      if(event=== "outboxMutationProcessed"){
+      if(event=== "outboxMutationProcessed" && data.model===Message && !(["DELIVERED","READ"].includes(data.element.status)) ){
       console.log(`mutation sync with cloud: ${data}`)
       console.log("mutation sync with cloud:," ,data.model)
-      if(data.model===Message){
+    
          DataStore.save(
           Message.copyOf(data.element,(updated)=>{
             updated.status ="DELIVERED"
           })
         )
-      }
+      
     }
     })
     

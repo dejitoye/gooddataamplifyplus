@@ -1,15 +1,27 @@
 import { API,graphqlOperation,Auth } from 'aws-amplify'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from "next/link"
 import Image from "next/image"
 import { useRouter } from 'next/dist/client/router'
-
+import { DataStore, SortDirection } from '@aws-amplify/datastore';
+import { Message } from 'src/models'
 function IndividualChatRoom({chatroom,userid}) {
-    // console.log("ccc",chatroom,userid)
+  const [count, setCount] = useState(0)
+    console.log("COUNT",count)
     const router =useRouter()
 const onChat =()=> {
 router.push(`/messages/${chatroom.chatroomID}`)
 }
+
+useEffect(() => {
+  // this to get the number of unread msg using status delivery 
+ const msgCount = async()=>{
+const ccc = await (await DataStore.query(Message)).filter(f=>f.chatroomID===chatroom.chatroomID).filter(f=>f.user.id !== userid.attributes.sub && f.status==="DELIVERED")
+console.log("delivered",ccc,chatroom)
+setCount(ccc.length)
+ }
+ msgCount()
+}, [])
 
 const check=chatroom?.chatroom?.LastMessage?.user?.id===userid.attributes.sub
 // console.log("YESSSSSSSOOOOO",check)
@@ -43,7 +55,7 @@ const check=chatroom?.chatroom?.LastMessage?.user?.id===userid.attributes.sub
         {chatroom.chatroom?.newMessage}
         </span>
       {!check &&  <span> {chatroom.chatroom.LastMessage?.content}</span>}
-      
+      <span> unread :{count}</span>
         </div>
         </div>
         </button>
