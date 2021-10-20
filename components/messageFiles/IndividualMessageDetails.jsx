@@ -15,8 +15,8 @@ const ScrollToTop = ()=>{
 }
 function IndividualMessageDetails(props) {
 // console.log("messageee",message)
-const {replyMe}= props
-// console.log(replyMe)
+const {replyMe,myId}= props
+// console.log(myId)
  const [users,setUsers] = useState(null)
  const [id,setId] = useState(null)
  const [user,setUser] = useState(null)
@@ -25,7 +25,13 @@ const {replyMe}= props
 // console.log("true user ",user)
 // console.log("MeSSAGE",message)
 // we created a state for message so we can store the value of the updated messge 
+const fiveMin = 300000
+const timePassed = new Date() - new Date(message.createdAt)>fiveMin
+const canReply = Boolean(myId)
 
+const canEdit = myId===message?.user?.id
+const canDelete = myId===message?.user?.id && !timePassed
+// console.log(canEdit)
 const setOpenReply = (aaa)=>{
     setOpen(!open)
     console.log("commemntt",aaa)
@@ -110,18 +116,21 @@ userHeader()
 
             </div>
             <div className="invisible group-hover:visible">
-                <button className="block" >
-           <ReplyIcon className="w-4 h-4 text-gray-400" onClick={()=>setOpenReply(message)}/>
+
+               { canReply&&   <button className="block" >
+        <ReplyIcon className="w-4 h-4 text-gray-400" onClick={()=>setOpenReply(message)}/>
             
             </button>
-            <button className="block">
-            <PencilAltIcon className="w-4 h-4 text-blue-400"/>
+    }
+             { canEdit&& <button className="block">
+         <PencilAltIcon className="w-4 h-4 text-blue-400"/>
             
-            </button>
-            <button className="block">
+            </button>}
+
+          {canDelete && <button className="block">
             <BackspaceIcon className="w-4 h-4 text-red-400"/>
             
-            </button>
+            </button>}
           
         
             </div>

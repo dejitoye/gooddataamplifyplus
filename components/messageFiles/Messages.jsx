@@ -30,6 +30,7 @@ function Messages({setChatroom}) {
   const [roomDetails, setRoomDetails] = useState(null)
   const [value, setValue] = useState(null)
   const [replyToMessage, setReplyToMessage] = useState(null)
+  const [myId, setId] = useState(null)
   const router=useRouter()
   // console.log("routerMessage",router)
   // console.log("dip",getMessage)
@@ -52,6 +53,7 @@ const dispatch = useDispatch()
 
   const fetchMessage = async ()=>{
     const userid= await Auth.currentAuthenticatedUser() 
+    setId(userid.attributes.sub)
 const model = await DataStore.query(GetMessages,message=>message.chatroomID("eq",id),{
   sort:message=>message.createdAt(SortDirection.ASCENDING)
 })
@@ -126,6 +128,28 @@ return ()=>subscription.unsubscribe
 
 
 
+
+  const sendMessagee = async( text,parentID)=>{
+console.log("addreply comment",text,parentID)
+    const resultt= await Auth.currentAuthenticatedUser()
+    const input={
+      content:message,
+      userID:resultt.attributes.sub,
+      chatroomID:id,
+      status:"SENT"
+      }
+      
+    // const result = await API.graphql(graphqlOperation(createMessage,{input}))
+    // const result = await DataStore.save(new Message ({
+    //   content:message,
+    //   userID:resultt.attributes.sub,
+    //   chatroomID:id
+    // }))
+    // console.log("message sent",result,input)
+    // updateLastMessage(result)
+    setMessage("")
+  }
+  
 
 
 const sendMessage = async()=>{
@@ -208,7 +232,7 @@ const getLastOnline = (aaa)=>{
             {getMessage.map(m=>   
             // <ReactScrollableFeed> 
               
-              <IndividualMessageDetails key = {m.id} message={m} replyMe = { getReplies(m.id)}  setAsMessageReply={()=> setReplyToMessage(m)}/> 
+              <IndividualMessageDetails key = {m.id} message={m} replyMe = { getReplies(m.id)}  setAsMessageReply={()=> setReplyToMessage(m)} myId={myId}/> 
             // </ReactScrollableFeed>
             
             )}
@@ -221,7 +245,7 @@ const getLastOnline = (aaa)=>{
          {/* <div> {disp?.user.name}</div> */}
          {/* <img src={disp?.user.pix} alt="" /> */}
          <div className="fixed bottom-0 w-full">
-         <MessageInput message = {message} setMessage={setMessage}  sendMessage={sendMessage}/>
+         <MessageInput  submitLabel = "Write" message = {message} setMessage={setMessage}  sendMessage={sendMessage} handleSubmit = {sendMessagee}/>
          </div>
           {/* <div className="fixed bottom-0 w-3/5 bg-gray-100 flex p-5">
           <input type="text" className="w-full" value={message} onChange={(e)=>{setMessage(e.target.value)}}/>
