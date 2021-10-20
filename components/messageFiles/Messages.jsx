@@ -16,6 +16,7 @@ import { ChatRoom } from "src/models";
 import { listMessages } from "src/graphql/queries";
 import { createMessage, updateChatRoom } from "src/mygraphql/mutations";
 import { onCreateMessage } from "src/mygraphql/subscriptions";
+import moment from "moment";
 
 function Messages({setChatroom}) {
   const state = useSelector((state) => state.friend.friendlist);
@@ -84,7 +85,7 @@ const aaa= mass.data.listMessages.items.filter(m=>m.chatroomID===id)
 // const model = await DataStore.query(GetMessages)
 const datauser= await (await DataStore.query(ChatRoomUser)).filter(a=>a.chatroom.id===id).filter(a=>a.user.id!==userid.attributes.sub)
 
-// console.log("datauser",datauser)
+console.log("datauser",datauser)
 setDisplayuser(datauser)
 // const model = await DataStore.query(GetMessages,Predicates.ALL,{ message=>message.chatroomID("eq",id),sortDirection})
 setGetMessage(model)
@@ -155,7 +156,8 @@ const sendMessage = async()=>{
   const input={
     content:message,
     userID:resultt.attributes.sub,
-    chatroomID:id
+    chatroomID:id,
+    status:"SENT"
     }
     
   // const result = await API.graphql(graphqlOperation(createMessage,{input}))
@@ -192,14 +194,30 @@ updateroom.LastMessage=aaa
 
   if(!router.query.message) return <h1> start a convo </h1>
  
+// function to format lastonline date
+const getLastOnline = (aaa)=>{
+  if(!dispuser)null
+  const fff = moment().diff(moment(aaa)) 
+  if(fff <5 * 60 * 1000){
+    return <span> online</span>
+  }else{
+    return <span> last seen {moment(aaa).fromNow()} </span> 
+  }
+}
+
       return (
         <div className="">
           <div >
             {/* {dispuser.map(a=> <IndividualMessageHeader key = {a.id} display={a}/> )} */}
          {dispuser.map(a=>(
-           <div key={a.id}>
-             <img src={a.user?.pix} alt="" />
+           <div key={a.id} className="bg-gray-100 shadow-2xl flex ">
+             <img src={a.user?.pix} alt=""  className="w-20 h-20 rounded-full p-1"/>
+             <div>
              <h1> {a.user.name}</h1>
+             {/* <p> last online:{a.user.lastOnlineAt}</p>
+             <p> { moment().diff(moment(a.user.lastOnlineAt)) }</p> */}
+             {getLastOnline(a.user.lastOnlineAt)}
+             </div>
            </div>
          ))}
           </div>
