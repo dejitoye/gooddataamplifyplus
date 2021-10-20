@@ -35,6 +35,7 @@ module.exports = {
       display: ["group-hover"],
       transform: ["group-hover"],
       scale: ["group-hover"],
+      visibility: ["group-hover"],
     },
   },
   plugins: [

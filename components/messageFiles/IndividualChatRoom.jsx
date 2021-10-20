@@ -7,7 +7,7 @@ import { DataStore, SortDirection } from '@aws-amplify/datastore';
 import { Message } from 'src/models'
 function IndividualChatRoom({chatroom,userid}) {
   const [count, setCount] = useState(0)
-    console.log("COUNT",count)
+    // console.log("COUNT",count)
     const router =useRouter()
 const onChat =()=> {
 router.push(`/messages/${chatroom.chatroomID}`)
@@ -17,7 +17,7 @@ useEffect(() => {
   // this to get the number of unread msg using status delivery 
  const msgCount = async()=>{
 const ccc = await (await DataStore.query(Message)).filter(f=>f.chatroomID===chatroom.chatroomID).filter(f=>f.user.id !== userid.attributes.sub && f.status==="DELIVERED")
-console.log("delivered",ccc,chatroom)
+// console.log("delivered",ccc,chatroom)
 setCount(ccc.length)
  }
  msgCount()

@@ -11,6 +11,7 @@ type Message @model @auth(rules: [{allow: public}]) @key(name: "byUser", fields:
   userID: ID
    user: User @connection(fields: ["userID"])
   chatroomID: ID
+  replyToMessageID:ID
 }
 
 enum RoomType {

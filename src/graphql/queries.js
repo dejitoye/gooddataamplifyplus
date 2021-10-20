@@ -1,80 +1,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getMessage = /* GraphQL */ `
-  query GetMessage($id: ID!) {
-    getMessage(id: $id) {
-      id
-      content
-      status
-      userID
-      chatroomID
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-      user {
-        id
-        name
-        pix
-        status
-        email
-        lastOnlineAt
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        Messages {
-          nextToken
-          startedAt
-        }
-        chatrooms {
-          nextToken
-          startedAt
-        }
-      }
-    }
-  }
-`;
-export const listMessages = /* GraphQL */ `
-  query ListMessages(
-    $filter: ModelMessageFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listMessages(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        content
-        status
-        userID
-        chatroomID
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        user {
-          id
-          name
-          pix
-          status
-          email
-          lastOnlineAt
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
 export const syncMessages = /* GraphQL */ `
   query SyncMessages(
     $filter: ModelMessageFilterInput
@@ -93,12 +19,6 @@ export const syncMessages = /* GraphQL */ `
         content
         status
         userID
-        chatroomID
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
         user {
           id
           name
@@ -112,34 +32,69 @@ export const syncMessages = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        chatroomID
+        replyToMessageID
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
       }
       nextToken
       startedAt
     }
   }
 `;
-export const getChatRoom = /* GraphQL */ `
-  query GetChatRoom($id: ID!) {
-    getChatRoom(id: $id) {
+export const getMessage = /* GraphQL */ `
+  query GetMessage($id: ID!) {
+    getMessage(id: $id) {
       id
-      newMessage
-      chatType
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-      LastMessage {
+      content
+      status
+      userID
+      user {
         id
-        content
+        name
+        pix
         status
-        userID
-        chatroomID
+        email
+        lastOnlineAt
+        Messages {
+          nextToken
+          startedAt
+        }
+        chatrooms {
+          nextToken
+          startedAt
+        }
         _version
         _deleted
         _lastChangedAt
         createdAt
         updatedAt
+      }
+      chatroomID
+      replyToMessageID
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listMessages = /* GraphQL */ `
+  query ListMessages(
+    $filter: ModelMessageFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listMessages(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        content
+        status
+        userID
         user {
           id
           name
@@ -153,76 +108,13 @@ export const getChatRoom = /* GraphQL */ `
           createdAt
           updatedAt
         }
-      }
-      Messages {
-        items {
-          id
-          content
-          status
-          userID
-          chatroomID
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
-        nextToken
-        startedAt
-      }
-      ChatRoomUsers {
-        items {
-          id
-          chatroomID
-          userID
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
-        nextToken
-        startedAt
-      }
-    }
-  }
-`;
-export const listChatRooms = /* GraphQL */ `
-  query ListChatRooms(
-    $filter: ModelChatRoomFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listChatRooms(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        newMessage
-        chatType
+        chatroomID
+        replyToMessageID
         _version
         _deleted
         _lastChangedAt
         createdAt
         updatedAt
-        LastMessage {
-          id
-          content
-          status
-          userID
-          chatroomID
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
-        Messages {
-          nextToken
-          startedAt
-        }
-        ChatRoomUsers {
-          nextToken
-          startedAt
-        }
       }
       nextToken
       startedAt
@@ -246,17 +138,13 @@ export const syncChatRooms = /* GraphQL */ `
         id
         newMessage
         chatType
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
         LastMessage {
           id
           content
           status
           userID
           chatroomID
+          replyToMessageID
           _version
           _deleted
           _lastChangedAt
@@ -271,26 +159,49 @@ export const syncChatRooms = /* GraphQL */ `
           nextToken
           startedAt
         }
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
       }
       nextToken
       startedAt
     }
   }
 `;
-export const getUser = /* GraphQL */ `
-  query GetUser($id: ID!) {
-    getUser(id: $id) {
+export const getChatRoom = /* GraphQL */ `
+  query GetChatRoom($id: ID!) {
+    getChatRoom(id: $id) {
       id
-      name
-      pix
-      status
-      email
-      lastOnlineAt
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
+      newMessage
+      chatType
+      LastMessage {
+        id
+        content
+        status
+        userID
+        user {
+          id
+          name
+          pix
+          status
+          email
+          lastOnlineAt
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        chatroomID
+        replyToMessageID
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
       Messages {
         items {
           id
@@ -298,6 +209,7 @@ export const getUser = /* GraphQL */ `
           status
           userID
           chatroomID
+          replyToMessageID
           _version
           _deleted
           _lastChangedAt
@@ -307,7 +219,7 @@ export const getUser = /* GraphQL */ `
         nextToken
         startedAt
       }
-      chatrooms {
+      ChatRoomUsers {
         items {
           id
           chatroomID
@@ -321,36 +233,51 @@ export const getUser = /* GraphQL */ `
         nextToken
         startedAt
       }
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
     }
   }
 `;
-export const listUsers = /* GraphQL */ `
-  query ListUsers(
-    $filter: ModelUserFilterInput
+export const listChatRooms = /* GraphQL */ `
+  query ListChatRooms(
+    $filter: ModelChatRoomFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listChatRooms(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        name
-        pix
-        status
-        email
-        lastOnlineAt
+        newMessage
+        chatType
+        LastMessage {
+          id
+          content
+          status
+          userID
+          chatroomID
+          replyToMessageID
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        Messages {
+          nextToken
+          startedAt
+        }
+        ChatRoomUsers {
+          nextToken
+          startedAt
+        }
         _version
         _deleted
         _lastChangedAt
         createdAt
         updatedAt
-        Messages {
-          nextToken
-          startedAt
-        }
-        chatrooms {
-          nextToken
-          startedAt
-        }
       }
       nextToken
       startedAt
@@ -377,11 +304,6 @@ export const syncUsers = /* GraphQL */ `
         status
         email
         lastOnlineAt
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
         Messages {
           nextToken
           startedAt
@@ -390,65 +312,79 @@ export const syncUsers = /* GraphQL */ `
           nextToken
           startedAt
         }
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
       }
       nextToken
       startedAt
     }
   }
 `;
-export const getChatRoomUser = /* GraphQL */ `
-  query GetChatRoomUser($id: ID!) {
-    getChatRoomUser(id: $id) {
+export const getUser = /* GraphQL */ `
+  query GetUser($id: ID!) {
+    getUser(id: $id) {
       id
-      chatroomID
-      userID
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-      chatroom {
-        id
-        newMessage
-        chatType
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        LastMessage {
+      name
+      pix
+      status
+      email
+      lastOnlineAt
+      Messages {
+        items {
           id
           content
           status
           userID
           chatroomID
+          replyToMessageID
           _version
           _deleted
           _lastChangedAt
           createdAt
           updatedAt
         }
-        Messages {
-          nextToken
-          startedAt
-        }
-        ChatRoomUsers {
-          nextToken
-          startedAt
-        }
+        nextToken
+        startedAt
       }
-      user {
+      chatrooms {
+        items {
+          id
+          chatroomID
+          userID
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listUsers = /* GraphQL */ `
+  query ListUsers(
+    $filter: ModelUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
         id
         name
         pix
         status
         email
         lastOnlineAt
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
         Messages {
           nextToken
           startedAt
@@ -457,49 +393,11 @@ export const getChatRoomUser = /* GraphQL */ `
           nextToken
           startedAt
         }
-      }
-    }
-  }
-`;
-export const listChatRoomUsers = /* GraphQL */ `
-  query ListChatRoomUsers(
-    $filter: ModelChatRoomUserFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listChatRoomUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        chatroomID
-        userID
         _version
         _deleted
         _lastChangedAt
         createdAt
         updatedAt
-        chatroom {
-          id
-          newMessage
-          chatType
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
-        user {
-          id
-          name
-          pix
-          status
-          email
-          lastOnlineAt
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
       }
       nextToken
       startedAt
@@ -523,11 +421,6 @@ export const syncChatRoomUsers = /* GraphQL */ `
         id
         chatroomID
         userID
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
         chatroom {
           id
           newMessage
@@ -551,6 +444,122 @@ export const syncChatRoomUsers = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getChatRoomUser = /* GraphQL */ `
+  query GetChatRoomUser($id: ID!) {
+    getChatRoomUser(id: $id) {
+      id
+      chatroomID
+      userID
+      chatroom {
+        id
+        newMessage
+        chatType
+        LastMessage {
+          id
+          content
+          status
+          userID
+          chatroomID
+          replyToMessageID
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        Messages {
+          nextToken
+          startedAt
+        }
+        ChatRoomUsers {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
+      user {
+        id
+        name
+        pix
+        status
+        email
+        lastOnlineAt
+        Messages {
+          nextToken
+          startedAt
+        }
+        chatrooms {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listChatRoomUsers = /* GraphQL */ `
+  query ListChatRoomUsers(
+    $filter: ModelChatRoomUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listChatRoomUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        chatroomID
+        userID
+        chatroom {
+          id
+          newMessage
+          chatType
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        user {
+          id
+          name
+          pix
+          status
+          email
+          lastOnlineAt
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
       }
       nextToken
       startedAt

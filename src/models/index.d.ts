@@ -35,6 +35,7 @@ export declare class Message {
   readonly status?: MessageStatus | keyof typeof MessageStatus;
   readonly user?: User;
   readonly chatroomID?: string;
+  readonly replyToMessageID?: string;
   readonly createdAt?: string;
   readonly updatedAt?: string;
   constructor(init: ModelInit<Message, MessageMetaData>);

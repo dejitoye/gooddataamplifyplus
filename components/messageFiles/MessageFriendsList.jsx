@@ -15,7 +15,7 @@ import { ChatRoomUser } from 'src/models'
 import { ChatRoom } from 'src/models'
 
 function MessageFriendsList({chatroom,userid}) {
-    console.log("walking",chatroom,userid)
+    // console.log("walking",chatroom,userid)
     const [loading, setloading] = useState(false)
   
     const [userdata, setUserdata] = useState([])

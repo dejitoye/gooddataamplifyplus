@@ -16,7 +16,9 @@ import { ChatRoom } from "src/models";
 import { listMessages } from "src/graphql/queries";
 import { createMessage, updateChatRoom } from "src/mygraphql/mutations";
 import { onCreateMessage } from "src/mygraphql/subscriptions";
+import ReactScrollableFeed from "react-scrollable-feed"
 import moment from "moment";
+import MessageInput from "./MessageInput";
 
 function Messages({setChatroom}) {
   const state = useSelector((state) => state.friend.friendlist);
@@ -27,6 +29,7 @@ function Messages({setChatroom}) {
   const [dispuser, setDisplayuser] = useState([])
   const [roomDetails, setRoomDetails] = useState(null)
   const [value, setValue] = useState(null)
+  const [replyToMessage, setReplyToMessage] = useState(null)
   const router=useRouter()
   // console.log("routerMessage",router)
   // console.log("dip",getMessage)
@@ -43,52 +46,27 @@ const dispatch = useDispatch()
   }, [router.query.message]);
 
 
-  // useEffect(() => {
-  
-  
-  //   const listener = Hub.listen('datastore', async hubData => {
-  //     const  { event, data } = hubData.payload;
-  //     console.log("datastore event ",event)
-  //     console.log("datastore data ",data)
-  //     if (event === 'networkStatus') {
-  //       console.log(`User has a network connection: ${data.active}`)
-  //       console.log('User has a network',data)
-  //     }
-  //     if(event=== "outboxMutationProcessed"){
-  //     console.log(`mutation sync with cloud: ${data}`)
-  //     console.log("mutation sync with cloud:," ,data.model)
-  //     if(data.model===Message){
-  //        DataStore.save(
-  //         Message.copyOf(data.element,(updated)=>{
-  //           updated.status ="DELIVERED"
-  //         })
-  //       )
-  //     }
-  //   }
-  //   })
-    
-  
-  //   // Remove listener
-  // return ()=>listener();
-    
-  
-  // }, [])
+  const getReplies = (commentID)=>{
+    return getMessage.filter(comment=>comment.replyToMessageID===commentID).sort((a,b)=>new Date(a.createdAt).getTime()-new Date(b.createdAt).getTime())
+  }
 
   const fetchMessage = async ()=>{
     const userid= await Auth.currentAuthenticatedUser() 
 const model = await DataStore.query(GetMessages,message=>message.chatroomID("eq",id),{
   sort:message=>message.createdAt(SortDirection.ASCENDING)
 })
+const bbb = model.filter(f=>f.replyToMessageID===null)
+
 const mass = await API.graphql(graphqlOperation(listMessages))
 const aaa= mass.data.listMessages.items.filter(m=>m.chatroomID===id)
-// console.log("mass",aaa)
+console.log("mass",bbb)
 // const model = await DataStore.query(GetMessages)
 const datauser= await (await DataStore.query(ChatRoomUser)).filter(a=>a.chatroom.id===id).filter(a=>a.user.id!==userid.attributes.sub)
 
-console.log("datauser",datauser)
+// console.log("datauser",datauser)
 setDisplayuser(datauser)
 // const model = await DataStore.query(GetMessages,Predicates.ALL,{ message=>message.chatroomID("eq",id),sortDirection})
-setGetMessage(model)
+setGetMessage(bbb)
 // setGetMessage(aaa)
 console.log("model fet",model)
   }
@@ -99,7 +77,7 @@ useEffect(() => {
 
  if(value&& value.element.chatroomID===id){
   subMesage(value,id)
-   console.log("NA SOOOOOOOOOOO",value)
+  //  console.log("NA SOOOOOOOOOOO",value)
     // setGetMessage(old=>[...old,value])
   }
 }, [value])
@@ -206,11 +184,11 @@ const getLastOnline = (aaa)=>{
 }
 
       return (
-        <div className="">
+        <div className="w-full">
           <div >
             {/* {dispuser.map(a=> <IndividualMessageHeader key = {a.id} display={a}/> )} */}
          {dispuser.map(a=>(
-           <div key={a.id} className="bg-gray-100 shadow-2xl flex ">
+           <div key={a.id} className="bg-gray-100 shadow-2xl flex  absolute w-3/5 opacity-70 top-14">
              <img src={a.user?.pix} alt=""  className="w-20 h-20 rounded-full p-1"/>
              <div>
              <h1> {a.user.name}</h1>
@@ -221,17 +199,34 @@ const getLastOnline = (aaa)=>{
            </div>
          ))}
           </div>
+          <div className= "mt-20 mb-28">
           {/* {disp?.map((d,i)=> <IndividualMessageHeader key = {i} display = {d}/>)} */}
-          {getMessage.length <=0 ?<span> no mesage</span> : (<div> 
-            {getMessage.map(m=><IndividualMessageDetails key = {m.id} message={m}/>)}
-
-          </div>)}
+          {getMessage.length <=0 ?<span> no mesage</span> : (
+          
+          <div> 
+          
+            {getMessage.map(m=>   
+            // <ReactScrollableFeed> 
+              
+              <IndividualMessageDetails key = {m.id} message={m} replyMe = { getReplies(m.id)}  setAsMessageReply={()=> setReplyToMessage(m)}/> 
+            // </ReactScrollableFeed>
+            
+            )}
+       
+          </div>  
+         
+          )}
+          
+          </div>
          {/* <div> {disp?.user.name}</div> */}
          {/* <img src={disp?.user.pix} alt="" /> */}
-          <div className="fixed bottom-0 w-3/5 bg-gray-100 flex p-5">
+         <div className="fixed bottom-0 w-full">
+         <MessageInput message = {message} setMessage={setMessage}  sendMessage={sendMessage}/>
+         </div>
+          {/* <div className="fixed bottom-0 w-3/5 bg-gray-100 flex p-5">
           <input type="text" className="w-full" value={message} onChange={(e)=>{setMessage(e.target.value)}}/>
           <button className={` px-2 border-2 ${!message? "bg-gray-300": "bg-green-300"}`} disabled={!message}  onClick={sendMessage} > send</button>
-          </div>
+          </div> */}
         </div>
       );
   };
