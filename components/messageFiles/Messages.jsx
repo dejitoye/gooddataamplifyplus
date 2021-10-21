@@ -25,15 +25,16 @@ function Messages({setChatroom}) {
   const [loading, setloading] = useState(false);
   const screenSize = useScreenSize();
   const [message, setMessage] = useState("")
-  // const [getMessage, setGetMessage] = useState([])
-  const [replyMessage, setReplyMessage] = useState([])
+  const [getMessage, setGetMessage] = useState([])
+  // const [replyMessage, setReplyMessage] = useState([])
   const [dispuser, setDisplayuser] = useState([])
   const [roomDetails, setRoomDetails] = useState(null)
   const [value, setValue] = useState(null)
   const [replyToMessage, setReplyToMessage] = useState(null)
+  const [open, setOpen] = useState(false)
   const router=useRouter()
   // console.log("routerMessage",router)
-  // console.log("dip",getMessage)
+  console.log("dip",replyToMessage)
 const id = router.query.message
 
 const dispatch = useDispatch()
@@ -47,6 +48,9 @@ const dispatch = useDispatch()
   }, [router.query.message]);
 
 
+  const resetMe = ()=>{
+    setOpen(!open)
+  }
   const getReplies = (commentID)=>{
     return getMessage.filter(comment=>comment.replyToMessageID===commentID).sort((a,b)=>new Date(a.createdAt).getTime()-new Date(b.createdAt).getTime())
   }
@@ -67,7 +71,7 @@ const datauser= await (await DataStore.query(ChatRoomUser)).filter(a=>a.chatroom
 // console.log("datauser",datauser)
 setDisplayuser(datauser)
 // const model = await DataStore.query(GetMessages,Predicates.ALL,{ message=>message.chatroomID("eq",id),sortDirection})
-setGetMessage(bbb)
+setGetMessage(model)
 // setGetMessage(aaa)
 console.log("model fet",model)
   }
@@ -130,7 +134,6 @@ return ()=>subscription.unsubscribe
 
 
 const sendMessage = async()=>{
-
   const resultt= await Auth.currentAuthenticatedUser()
   const input={
     content:message,
@@ -141,6 +144,7 @@ const sendMessage = async()=>{
     
   // const result = await API.graphql(graphqlOperation(createMessage,{input}))
   const result = await DataStore.save(new Message ({
+
     content:message,
     userID:resultt.attributes.sub,
     chatroomID:id
@@ -184,6 +188,12 @@ const getLastOnline = (aaa)=>{
   }
 }
 
+const replyMsg= (aaa)=>{
+  console.log("my replies",aaa)
+  setReplyToMessage(aaa)
+}
+
+
       return (
         <div className="w-full">
           <div >
@@ -209,7 +219,7 @@ const getLastOnline = (aaa)=>{
             {getMessage.map(m=>   
             // <ReactScrollableFeed> 
               
-              <IndividualMessageDetails key = {m.id} message={m} replyMe = { getReplies(m.id)}  setAsMessageReply={()=> setReplyToMessage(m)}/> 
+              <IndividualMessageDetails key = {m.id} message={m} replyMe = { getReplies(m.id)}  setAsMessageReply={()=>setReplyToMessage(m)} replyToMessage={replyToMessage} replyMsg={replyMsg} resetMe={resetMe} cancel={open}/> 
             // </ReactScrollableFeed>
             
             )}

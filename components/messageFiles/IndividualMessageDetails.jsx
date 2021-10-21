@@ -10,26 +10,72 @@ import {useWindowScroll} from "react-use"
 import { Message } from 'src/models';
 import MessageInput from './MessageInput';
 import ReactScrollableFeed from "react-scrollable-feed"
+import { ChatRoom } from 'src/models';
 const ScrollToTop = ()=>{
 
 }
 function IndividualMessageDetails(props) {
 // console.log("messageee",message)
-const {replyMe}= props
-// console.log(replyMe)
+const {replyMe,replyToMessage,replyMsg,resetMe,cancel, setAsMessageReply}= props
+console.log("rrrreeeee",replyToMessage)
  const [users,setUsers] = useState(null)
  const [id,setId] = useState(null)
  const [user,setUser] = useState(null)
  const [message, setMessage] = useState(props.message)
  const [open, setOpen] = useState(false)
-// console.log("true user ",user)
-// console.log("MeSSAGE",message)
-// we created a state for message so we can store the value of the updated messge 
+ const [ccc, setCcc] = useState(null)
+ const [writeReply, setWriteReply] = useState("")
+ 
+console.log("true user ",ccc)
+console.log("WRITE A REPLY ",writeReply)
 
-const setOpenReply = (aaa)=>{
-    setOpen(!open)
-    console.log("commemntt",aaa)
-}
+
+const sendMessage = async()=>{
+    const resultt= await Auth.currentAuthenticatedUser()
+    const input={
+      content:message,
+      userID:resultt.attributes.sub,
+      chatroomID:ccc.chatroomID,
+      status:"SENT"
+      }
+      
+    // const result = await API.graphql(graphqlOperation(createMessage,{input}))
+    const result = await DataStore.save(new Message ({
+  
+      content:writeReply,
+      userID:resultt.attributes.sub,
+      chatroomID:ccc.chatroomID,
+      replyToMessageID:ccc.id,
+      status:"SENT",
+    }))
+    console.log("message sent",result,input)
+    updateLastMessage(result)
+    setWriteReply("")
+    setOpen(false)
+  }
+  
+  
+  const updateLastMessage = async(aaa)=>{
+    const resultt= await Auth.currentAuthenticatedUser()
+    const input = {
+      
+      id:id,
+      chatRoomLastMessageId:aaa.id,
+      // newMessage:roomDetails.newMessage++,
+      // userID:resultt.attributes.sub,
+  
+    }
+  // const result =await API.graphql(graphqlOperation(updateChatRoom,{input}))
+  const original = await DataStore.query(ChatRoom,id)
+  const result = await DataStore.save(ChatRoom.copyOf(original,updateroom=>{
+  updateroom.LastMessage=aaa
+  }))
+  // const result = await API.graphql({ query:updateChatRoom, variables: {input: inputt}});
+  
+  // console.log("result is :",result)
+  }
+
+
 const messageEndRef = useRef(null)
 
 const scrollToBottom = ()=>{
@@ -92,6 +138,32 @@ userHeader()
 
 
 
+   const replyFunce= (aaa)=>{
+       resetMe()
+    //    resetMessage()
+    //    setOpen(!open)
+       replyMsg(aaa)
+       setWriteReply(aaa.content)
+       setCcc(aaa)
+//        if(ccc){
+// console.log("exits ")
+//        return null  
+//        }else{
+//            console.log("null")
+//            setCcc(aaa)
+//        }
+    //    
+   }
+
+   const replyFunc= (aaa)=>{
+       console.log("OPEN",open)
+   setOpen(!open)
+setCcc(aaa)
+   }
+const resetMessage = ()=>{
+    setOpen(false)
+    setCcc()
+}
 
     return (
 <ReactScrollableFeed> 
@@ -110,10 +182,12 @@ userHeader()
 
             </div>
             <div className="invisible group-hover:visible">
+                
                 <button className="block" >
-           <ReplyIcon className="w-4 h-4 text-gray-400" onClick={()=>setOpenReply(message)}/>
+           <ReplyIcon className="w-4 h-4 text-gray-400" onClick={ ()=>replyFunc(message)}/>
             
             </button>
+
             <button className="block">
             <PencilAltIcon className="w-4 h-4 text-blue-400"/>
             
@@ -125,21 +199,39 @@ userHeader()
           
         
             </div>
-
+            {/* {ccc &&<div className="flex flex-col">
+   <h1> {ccc.content}</h1>
+   <MessageInput message={ccc.content}/>
+</div>} */}
             </div>
            
-{replyMe.length > 0 &&(
+{/* {replyMe.length > 0 &&(
  <div  className= {`flex mb-4 ${ !user&& "justify-end mr-4"}  `}>
      {replyMe.map(reply=>(
 <IndividualMessageDetails key={reply.id} message = {reply} replyMe={[]}/> 
 
      ))}
       </div>
-)  }
+)  } */}
+ { ccc  && open===true && <div className={`flex flex-col p-1 ${ !user&& " items-end"}`}>
 
-            <div  className= {`  p-1 ${ !user&& "justify-end"}`}>
+   <h1>repliy to: {ccc.user.name}</h1>
+   {/* <MessageInput message={ccc.content}/> */}
+
+   <div className=" w-3/5 bg-gray-100 flex p-5">
+       <div >
+           <button onClick={()=>setOpen(!open)}>
+           x
+           </button>
+          
+       </div>
+        <input type="text" className="w-full" value={writeReply} onChange={(e)=>{setWriteReply(e.target.value)}}/>
+        <button className={` px-2 border-2 ${!message? "bg-gray-300": "bg-green-300"}`} disabled={!message}  onClick={sendMessage} > send</button>
+        </div>
+</div>}
+            {/* <div  className= {`  p-1 ${ !user&& "justify-end"}`}>
             {open &&   <MessageInput/>}
-            </div>
+            </div> */}
           
             {/* <IndividualMessageHeader users={users} id={id}/> */}
             </div>

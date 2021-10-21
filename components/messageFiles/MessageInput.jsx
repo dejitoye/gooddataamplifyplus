@@ -1,7 +1,7 @@
 import React from 'react'
 
 function MessageInput(props) {
-  const  {message,sendMessage,setMessage} =  props
+  const  {message,sendMessage,setMessage,replyToMessage} =  props
     return (
         <div className=" w-3/5 bg-gray-100 flex p-5">
         <input type="text" className="w-full" value={message} onChange={(e)=>{setMessage(e.target.value)}}/>
