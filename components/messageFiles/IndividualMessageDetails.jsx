@@ -173,10 +173,11 @@ const resetMessage = ()=>{
 <div>
 
            
-            <div  className= {` flex  p-1 ${ !user&& "justify-end"}  group`}>
-          {sad&&  <div className="flex flex-row bg-gray-400">
+            <div  className= {` flex p-1 ${ !user&& "justify-end"}  group`}>
+                <div>
+          {sad&&  <div className=" bg-gray-400">
                 <h6 className="text-xs ">reply to : </h6>
-                <p className="text-xs"> {sad?.user.name}</p><br />
+                <p className="text-xs"> {sad?.user.name}</p>
             <h6 className="text-xs "> content:{sad?.content}</h6>
            
             </div>}
@@ -215,6 +216,7 @@ const resetMessage = ()=>{
    <h1> {ccc.content}</h1>
    <MessageInput message={ccc.content}/>
 </div>} */}
+</div>
             </div>
            
 {/* {replyMe.length > 0 &&(
@@ -238,7 +240,7 @@ const resetMessage = ()=>{
           
        </div>
         <input type="text" className="w-full" value={writeReply} onChange={(e)=>{setWriteReply(e.target.value)}}/>
-        <button className={` px-2 border-2 ${!message? "bg-gray-300": "bg-green-300"}`} disabled={!message}  onClick={sendMessage} > send</button>
+        <button className={` px-2 border-2 ${!writeReply? "bg-gray-300": "bg-green-300"}`} disabled={!writeReply}  onClick={sendMessage} > send</button>
         </div>
 </div>}
             {/* <div  className= {`  p-1 ${ !user&& "justify-end"}`}>
