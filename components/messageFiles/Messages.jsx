@@ -48,7 +48,10 @@ const dispatch = useDispatch()
 
 
   const getReplies = (commentID)=>{
-    return getMessage.filter(comment=>comment.replyToMessageID===commentID).sort((a,b)=>new Date(a.createdAt).getTime()-new Date(b.createdAt).getTime())
+  //  const bbb= getMessage.filter(comment=>comment.replyToMessageID===commentID).sort((a,b)=>new Date(a.createdAt).getTime()-new Date(b.createdAt).getTime())
+  const bbb= getMessage.filter(comment=>comment.replyToMessageID===commentID)
+  console.log("bbb",bbb) 
+   return bbb
   }
 
   const fetchMessage = async ()=>{
@@ -68,7 +71,7 @@ const datauser= await (await DataStore.query(ChatRoomUser)).filter(a=>a.chatroom
 // console.log("datauser",datauser)
 setDisplayuser(datauser)
 // const model = await DataStore.query(GetMessages,Predicates.ALL,{ message=>message.chatroomID("eq",id),sortDirection})
-setGetMessage(bbb)
+setGetMessage(model)
 // setGetMessage(aaa)
 console.log("model fet",model)
   }
@@ -150,7 +153,12 @@ console.log("addreply comment",text,parentID)
     setMessage("")
   }
   
-
+const deleteMessage = async(msgid)=>{
+  console.log("deleted",msgid)
+}
+const editMessage = async(msgid)=>{
+  console.log("Edited",msgid)
+}
 
 const sendMessage = async()=>{
 
@@ -229,10 +237,10 @@ const getLastOnline = (aaa)=>{
           
           <div> 
           
-            {getMessage.map(m=>   
+            {getMessage.filter(f=>f.replyToMessageID===null). map(m=>   
             // <ReactScrollableFeed> 
               
-              <IndividualMessageDetails key = {m.id} message={m} replyMe = { getReplies(m.id)}  setAsMessageReply={()=> setReplyToMessage(m)} myId={myId}/> 
+              <IndividualMessageDetails key = {m.id} message={m} replyMe = { getReplies(m.id)}  setAsMessageReply={()=> setReplyToMessage(m)} myId={myId} getMessage={getMessage} deleteMessage={deleteMessage}  editMessage={editMessage}/> 
             // </ReactScrollableFeed>
             
             )}

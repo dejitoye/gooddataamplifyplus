@@ -14,14 +14,17 @@ const ScrollToTop = ()=>{
 
 }
 function IndividualMessageDetails(props) {
-// console.log("messageee",message)
-const {replyMe,myId}= props
-// console.log(myId)
+// console.log("messageee",props.message)
+const {replyMe,myId,getMessage,deleteMessage,editMessage}= props
+// console.log("reply",getMessage)
  const [users,setUsers] = useState(null)
  const [id,setId] = useState(null)
  const [user,setUser] = useState(null)
  const [message, setMessage] = useState(props.message)
  const [open, setOpen] = useState(false)
+//  console.log("with reply",message.replyToMessageID !== null)
+const reply = Boolean(message.replyToMessageID)
+// console.log("reeeee",replyMe)
 // console.log("true user ",user)
 // console.log("MeSSAGE",message)
 // we created a state for message so we can store the value of the updated messge 
@@ -31,6 +34,19 @@ const canReply = Boolean(myId)
 
 const canEdit = myId===message?.user?.id
 const canDelete = myId===message?.user?.id && !timePassed
+const createdAt = new Date(message.createdAt).toLocaleDateString()
+// console.log("createdAT",createdAt)
+// const getMsg = getMessage?.find(m=>m.id===message.replyToMessageID)
+
+
+useEffect(() => {
+   
+}, [])
+
+
+const getMsg = replyMe?.filter(m=>m.id ===message.replyToMessageID)
+// console.log("hahahha",getMsg)
+
 // console.log(canEdit)
 const setOpenReply = (aaa)=>{
     setOpen(!open)
@@ -107,10 +123,12 @@ userHeader()
 
            
             <div  className= {` flex  p-1 ${ !user&& "justify-end"}  group`}>
-                <div  className = {`flex items-center ${user && "bg-blue-200"} ${!user && "bg-green-200"} p-2 rounded-md `} >
+                <div  className = {`flex items-center ${user && !reply ? "bg-blue-200":user &&reply ? "bg-blue-300":null } ${!user && !reply ? "bg-green-200":!user &&reply ? "bg-green-300":null} p-2 rounded-md `} >
          {/* {users&&   <img src={users?.pix} className=" h-8 w-8 rounded-full"/>} */}
             <img src={message.user?.pix} className=" h-8 w-8 rounded-full"/>
             <h1 > {message.content}</h1>
+            <span className="text-xs text-gray-50"> {createdAt}</span>
+            <span> replies: {replyMe.length}</span>
          {/* { message.status==="DELIVERED"?  <MailIcon className=" ml-4 w-4 h-4 text-blue-300" />:message.status==="READ" ? <CheckIcon className=" ml-4 w-4 h-4 text-blue-300" />:null} */}
          { message.status==="DELIVERED"?  <CheckIcon className=" ml-4 w-4 h-4 text-blue-700" />:message.status==="READ" ? <CheckIcon className=" ml-4 w-4 h-4 text-blue-300" />:null}
 
@@ -122,12 +140,12 @@ userHeader()
             
             </button>
     }
-             { canEdit&& <button className="block">
+             { canEdit&& <button className="block" onClick={()=>editMessage(message)}>
          <PencilAltIcon className="w-4 h-4 text-blue-400"/>
             
             </button>}
 
-          {canDelete && <button className="block">
+          {canDelete && <button className="block" onClick={()=>deleteMessage(message)}>
             <BackspaceIcon className="w-4 h-4 text-red-400"/>
             
             </button>}
@@ -140,13 +158,13 @@ userHeader()
 {replyMe.length > 0 &&(
  <div  className= {`flex mb-4 ${ !user&& "justify-end mr-4"}  `}>
      {replyMe.map(reply=>(
-<IndividualMessageDetails key={reply.id} message = {reply} replyMe={[]}/> 
+<IndividualMessageDetails key={reply.id} message = {reply} replyMe={[]}    myId={myId} deleteMessage={deleteMessage}  editMessage={editMessage} /> 
 
      ))}
       </div>
 )  }
 
-            <div  className= {`  p-1 ${ !user&& "justify-end"}`}>
+            <div  className= {` flex p-1 ${ !user&& "justify-end"}`}>
             {open &&   <MessageInput/>}
             </div>
           
