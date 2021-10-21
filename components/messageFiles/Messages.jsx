@@ -219,7 +219,7 @@ const replyMsg= (aaa)=>{
             {getMessage.map(m=>   
             // <ReactScrollableFeed> 
               
-              <IndividualMessageDetails key = {m.id} message={m} replyMe = { getReplies(m.id)}  setAsMessageReply={()=>setReplyToMessage(m)} replyToMessage={replyToMessage} replyMsg={replyMsg} resetMe={resetMe} cancel={open}/> 
+              <IndividualMessageDetails key = {m.id} message={m} replyMe = { getReplies(m.id)}  setAsMessageReply={()=>setReplyToMessage(m)} replyToMessage={replyToMessage} replyMsg={replyMsg} resetMe={resetMe} cancel={open} getMessage={getMessage}/> 
             // </ReactScrollableFeed>
             
             )}

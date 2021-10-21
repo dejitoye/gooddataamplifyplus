@@ -16,7 +16,7 @@ const ScrollToTop = ()=>{
 }
 function IndividualMessageDetails(props) {
 // console.log("messageee",message)
-const {replyMe,replyToMessage,replyMsg,resetMe,cancel, setAsMessageReply}= props
+const {replyMe,replyToMessage,replyMsg,resetMe,getMessage}= props
 console.log("rrrreeeee",replyToMessage)
  const [users,setUsers] = useState(null)
  const [id,setId] = useState(null)
@@ -29,7 +29,8 @@ console.log("rrrreeeee",replyToMessage)
 console.log("true user ",ccc)
 console.log("WRITE A REPLY ",writeReply)
 
-
+const sad = getMessage.find(g=>g.id===message.replyToMessageID)
+console.log("GET REPLY ",sad)
 const sendMessage = async()=>{
     const resultt= await Auth.currentAuthenticatedUser()
     const input={
@@ -173,10 +174,21 @@ const resetMessage = ()=>{
 
            
             <div  className= {` flex  p-1 ${ !user&& "justify-end"}  group`}>
+          {sad&&  <div className="flex flex-row bg-gray-400">
+                <h6 className="text-xs ">reply to : </h6>
+                <p className="text-xs"> {sad?.user.name}</p><br />
+            <h6 className="text-xs "> content:{sad?.content}</h6>
+           
+            </div>}
                 <div  className = {`flex items-center ${user && "bg-blue-200"} ${!user && "bg-green-200"} p-2 rounded-md `} >
+        
          {/* {users&&   <img src={users?.pix} className=" h-8 w-8 rounded-full"/>} */}
+       
+        
             <img src={message.user?.pix} className=" h-8 w-8 rounded-full"/>
-            <h1 > {message.content}</h1>
+            <h1 > {message.content}</h1><br />
+          
+           
          {/* { message.status==="DELIVERED"?  <MailIcon className=" ml-4 w-4 h-4 text-blue-300" />:message.status==="READ" ? <CheckIcon className=" ml-4 w-4 h-4 text-blue-300" />:null} */}
          { message.status==="DELIVERED"?  <CheckIcon className=" ml-4 w-4 h-4 text-blue-700" />:message.status==="READ" ? <CheckIcon className=" ml-4 w-4 h-4 text-blue-300" />:null}
 
