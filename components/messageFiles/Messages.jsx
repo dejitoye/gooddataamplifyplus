@@ -25,7 +25,8 @@ function Messages({setChatroom}) {
   const [loading, setloading] = useState(false);
   const screenSize = useScreenSize();
   const [message, setMessage] = useState("")
-  const [getMessage, setGetMessage] = useState([])
+  // const [getMessage, setGetMessage] = useState([])
+  const [replyMessage, setReplyMessage] = useState([])
   const [dispuser, setDisplayuser] = useState([])
   const [roomDetails, setRoomDetails] = useState(null)
   const [value, setValue] = useState(null)
@@ -221,7 +222,7 @@ const getLastOnline = (aaa)=>{
          {/* <div> {disp?.user.name}</div> */}
          {/* <img src={disp?.user.pix} alt="" /> */}
          <div className="fixed bottom-0 w-full">
-         <MessageInput message = {message} setMessage={setMessage}  sendMessage={sendMessage}/>
+         <MessageInput message = {message} setMessage={setMessage}  sendMessage={sendMessage} replyToMessage={replyToMessage}/>
          </div>
           {/* <div className="fixed bottom-0 w-3/5 bg-gray-100 flex p-5">
           <input type="text" className="w-full" value={message} onChange={(e)=>{setMessage(e.target.value)}}/>
