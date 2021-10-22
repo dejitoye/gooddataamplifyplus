@@ -74,7 +74,9 @@ useEffect(() => {
 const setMsgAsRead = async()=>{
     // console.log("uerssss",user)
 if(user===false && message.status !=="READ"){
-await DataStore.save(Message.copyOf(message,(updated)=>updated.status="READ"))
+    console.log("errtype",message)
+    const msg = await DataStore.query(Message,message.id)
+await DataStore.save(Message.copyOf(msg,(updated)=>updated.status="READ"))
 }
 }
 

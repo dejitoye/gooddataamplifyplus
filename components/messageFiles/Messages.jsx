@@ -89,6 +89,7 @@ useEffect(() => {
 const subMesage= async(aaa,bbb)=>{
   const id = aaa.element.id
 const ddd = await DataStore.query(Message,id)
+
 // console.log("individual",ddd,bbb)
 if (aaa.element.chatroomID===bbb){
   setGetMessage(old=>[...old,ddd])
@@ -143,6 +144,14 @@ const sendMessagee = async(aaa,replyid)=>{
     status:"SENT"
     }
     console.log("inputttt",input)
+    const result = await DataStore.save(new Message (
+      // content:message,
+      // userID:resultt.attributes.sub,
+      // chatroomID:id
+      input
+    ))
+    // console.log("message sent",result,input)
+    updateLastMessage(result)
   // const result = await API.graphql(graphqlOperation(createMessage,{input}))
   // const result = await DataStore.save(new Message ({
   //   content:message,
@@ -177,8 +186,11 @@ const sendMessage = async()=>{
   updateLastMessage(result)
   setMessage("")
 }
-const updateMainMessage= (text,msg)=>{
-
+const updateMainMessage= async(text,msg)=>{
+  const result = await DataStore.save(Message.copyOf(msg,updatemsg=>{
+    updatemsg.content=text
+    }))
+    console.log("from back end ",result)
 // const editIndex= getMessage.findIndex(f=>f.id===msg.id)
 const updateMsg= getMessage.map((m)=>{
  if( m.id===msg.id){
@@ -188,6 +200,7 @@ const updateMsg= getMessage.map((m)=>{
  return m
 })
 setGetMessage(updateMsg)
+updateLastMessage(result)
 setActiveState(null)
 console.log("UPDAE MY MESSAGE",text,msg,updateMsg)
 }
@@ -214,8 +227,10 @@ updateroom.LastMessage=aaa
 
 
 
-const deleteMsg= (aaa)=>{
+const deleteMsg=async(aaa)=>{
   console.log("delete")
+  const modelToDelete = await DataStore.query(Message,aaa.id);
+DataStore.delete(modelToDelete);
   const updatedelete = getMessage.filter(did=> did.id !== aaa.id)
   setGetMessage(updatedelete)
 }

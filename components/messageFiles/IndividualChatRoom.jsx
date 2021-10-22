@@ -5,20 +5,35 @@ import Image from "next/image"
 import { useRouter } from 'next/dist/client/router'
 import { DataStore, SortDirection } from '@aws-amplify/datastore';
 import { Message } from 'src/models'
+import { useSelector } from 'react-redux'
 function IndividualChatRoom({chatroom,userid}) {
-  const [count, setCount] = useState(0)
-    // console.log("COUNT",count)
+  const [count, setCount] = useState([])
+const msgcount = useSelector(state => state.message.msg)
+console.log("message count",msgcount)
+    console.log("COUNT",count)
     const router =useRouter()
 const onChat =()=> {
 router.push(`/messages/${chatroom.chatroomID}`)
 }
+
+
+useEffect(() => {
+  const ddd = count.map((c) =>{
+  // if( c.chatroomID===msgcount?.chatroomID) {
+  //   console.log("workedddddd")
+    // setCount((old)=> [...old,msgcount])
+// const update = 
+  // }return
+  })
+ console.log("counted")
+}, [msgcount])
 
 useEffect(() => {
   // this to get the number of unread msg using status delivery 
  const msgCount = async()=>{
 const ccc = await (await DataStore.query(Message)).filter(f=>f.chatroomID===chatroom.chatroomID).filter(f=>f.user.id !== userid.attributes.sub && f.status==="DELIVERED")
 // console.log("delivered",ccc,chatroom)
-setCount(ccc.length)
+setCount(ccc)
  }
  msgCount()
 }, [])
@@ -55,7 +70,7 @@ const check=chatroom?.chatroom?.LastMessage?.user?.id===userid.attributes.sub
         {chatroom.chatroom?.newMessage}
         </span>
       {!check &&  <span> {chatroom.chatroom.LastMessage?.content}</span>}
-      <span> unread :{count}</span>
+    {  <span> unread :{count.length}</span>}
         </div>
         </div>
         </button>

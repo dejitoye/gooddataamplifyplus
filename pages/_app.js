@@ -3,7 +3,7 @@ import '../styles/globals.css'
 import 'tailwindcss/tailwind.css'
 import Layout from '../components/Layout'
 import {createWrapper} from "next-redux-wrapper"
-import {Provider} from "react-redux"
+import {Provider, useDispatch} from "react-redux"
 import store from "store/store"
 import {ThemeProvider} from "next-themes"
 import LeftBar from '@/components/LeftBar'
@@ -21,7 +21,7 @@ Amplify.configure({...config,ssr:true})
 function MyApp({ Component, pageProps }) {
   const [user, setUser] = useState(null)
 console.log("yyyyyyyy",user)
-
+const dispatch = useDispatch()
 
   useEffect(() => {
    const fetchUser= async()=>{
@@ -86,12 +86,13 @@ console.log("object",uuu)
       console.log(`mutation sync with cloud: ${data}`)
       console.log("mutation sync with cloud:," ,data.model)
     
-         DataStore.save(
+    const ddd =   await   DataStore.save(
           Message.copyOf(data.element,(updated)=>{
             updated.status ="DELIVERED"
           })
         )
-      
+        dispatch({type:"MSGCOUNT",payload:ddd})
+      console.log("dssdsdsdsdssdsd",ddd)
     }
     })
     
