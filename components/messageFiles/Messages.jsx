@@ -30,6 +30,8 @@ function Messages({setChatroom}) {
   const [roomDetails, setRoomDetails] = useState(null)
   const [value, setValue] = useState(null)
   const [replyToMessage, setReplyToMessage] = useState(null)
+  const [userid, setUserid] = useState(null)
+  const [activeState, setActiveState] = useState(null)
   const router=useRouter()
   // console.log("routerMessage",router)
   // console.log("dip",getMessage)
@@ -52,6 +54,7 @@ const dispatch = useDispatch()
 
   const fetchMessage = async ()=>{
     const userid= await Auth.currentAuthenticatedUser() 
+    setUserid(userid.attributes.sub)
 const model = await DataStore.query(GetMessages,message=>message.chatroomID("eq",id),{
   sort:message=>message.createdAt(SortDirection.ASCENDING)
 })
@@ -125,8 +128,33 @@ return ()=>subscription.unsubscribe
   }, []);
 
 
+const sendMessageee=(aaa,replyid)=>{
+console.log("addd Text", aaa,replyid)
+}
 
+const sendMessagee = async(aaa,replyid)=>{
+  console.log("addd Text", aaa,replyid)
+  const resultt= await Auth.currentAuthenticatedUser()
+  const input={
+    content:aaa,
+    userID:resultt.attributes.sub,
+    chatroomID:id,
+    replyToMessageID:!replyid?null :replyid,
+    status:"SENT"
+    }
+    console.log("inputttt",input)
+  // const result = await API.graphql(graphqlOperation(createMessage,{input}))
+  // const result = await DataStore.save(new Message ({
+  //   content:message,
+  //   userID:resultt.attributes.sub,
+  //   chatroomID:id,
+  //   replyToMessageID:replyid,
 
+  // }))
+  // console.log("message sent",result,input)
+  // updateLastMessage(result)
+ setActiveState(null)
+}
 
 const sendMessage = async()=>{
 
@@ -135,6 +163,7 @@ const sendMessage = async()=>{
     content:message,
     userID:resultt.attributes.sub,
     chatroomID:id,
+   
     status:"SENT"
     }
     
@@ -148,7 +177,20 @@ const sendMessage = async()=>{
   updateLastMessage(result)
   setMessage("")
 }
+const updateMainMessage= (text,msg)=>{
 
+// const editIndex= getMessage.findIndex(f=>f.id===msg.id)
+const updateMsg= getMessage.map((m)=>{
+ if( m.id===msg.id){
+   return {...m, content:text}
+  // console.log("object",m)
+ }
+ return m
+})
+setGetMessage(updateMsg)
+setActiveState(null)
+console.log("UPDAE MY MESSAGE",text,msg,updateMsg)
+}
 
 const updateLastMessage = async(aaa)=>{
   const resultt= await Auth.currentAuthenticatedUser()
@@ -168,6 +210,14 @@ updateroom.LastMessage=aaa
 // const result = await API.graphql({ query:updateChatRoom, variables: {input: inputt}});
 
 // console.log("result is :",result)
+}
+
+
+
+const deleteMsg= (aaa)=>{
+  console.log("delete")
+  const updatedelete = getMessage.filter(did=> did.id !== aaa.id)
+  setGetMessage(updatedelete)
 }
 
   if(!router.query.message) return <h1> start a convo </h1>
@@ -208,7 +258,14 @@ const getLastOnline = (aaa)=>{
             {getMessage.map(m=>   
             // <ReactScrollableFeed> 
               
-              <IndividualMessageDetails key = {m.id} message={m} replyMe = { getReplies(m.id)}  setAsMessageReply={()=> setReplyToMessage(m)}/> 
+              <IndividualMessageDetails key = {m.id} message={m} replyMe = { getReplies(m.id)}  setAsMessageReply={()=> setReplyToMessage(m)} 
+             parentId= {m.id}
+              activeState={activeState}
+              setActiveState={setActiveState}
+              myId={userid} deleteMsg={deleteMsg}
+             sendMessagee = {sendMessagee}
+             updateMessage = {updateMainMessage}
+              /> 
             // </ReactScrollableFeed>
             
             )}
@@ -221,7 +278,7 @@ const getLastOnline = (aaa)=>{
          {/* <div> {disp?.user.name}</div> */}
          {/* <img src={disp?.user.pix} alt="" /> */}
          <div className="fixed bottom-0 w-full">
-         <MessageInput message = {message} setMessage={setMessage}  sendMessage={sendMessage}/>
+         <MessageInput submitLabel= "Write" message = {message} setMessage={setMessage}  sendMessage={sendMessage}  handleSubmit = {sendMessagee} setActiveState={setActiveState}/>
          </div>
           {/* <div className="fixed bottom-0 w-3/5 bg-gray-100 flex p-5">
           <input type="text" className="w-full" value={message} onChange={(e)=>{setMessage(e.target.value)}}/>
