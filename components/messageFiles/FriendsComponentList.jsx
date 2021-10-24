@@ -16,14 +16,36 @@ import { DataStore } from '@aws-amplify/datastore';
 import { User } from 'src/models'
 import { ChatRoomUser } from 'src/models'
 import { ChatRoom } from 'src/models'
+import { Message } from 'src/models'
 function FriendsComponentList({friends,loading,userdata,roomdata}) {
     const [id, setId] = useState(null)
+    const [count, setCount] = useState([])
    const router= useRouter()
-    // console.log("data",router)
+    // console.log("data",count)
 const dispatch = useDispatch()
 
-
-
+// useEffect(() => {
+//     const ddd = count.map((c) =>{
+//     // if( c.chatroomID===msgcount?.chatroomID) {
+//     //   console.log("workedddddd")
+//       // setCount((old)=> [...old,msgcount])
+//   // const update = 
+//     // }return
+//     })
+//    console.log("counted")
+//   }, [])
+  
+//   useEffect(() => {
+//     // this to get the number of unread msg using status delivery 
+//    const msgCount = async()=>{
+//   const ccc = await (await DataStore.query(Message)).filter(f=>f.chatroomID===chatroom.chatroomID).filter(f=>f.user.id !== userid.attributes.sub && f.status==="DELIVERED")
+//   // console.log("delivered",ccc,chatroom)
+//   setCount(ccc)
+//    }
+//    msgCount()
+//   }, [])
+  
+  
 
 const createRoom=async(aaa)=>{
     const newChatRoom = await DataStore.save(new ChatRoom({newMessages:0,chatType:"SINGLE"}))

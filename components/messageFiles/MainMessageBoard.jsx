@@ -57,13 +57,13 @@ const userlistPlusData  = async()=>{
     const bbbb= await DataStore.query(User)
     // console.log("xzzxxxxxxxx",bbbb)
     const aaa = await API.graphql(graphqlOperation(listUsers))
-    // console.log("frrrrrr",aaa)
+    console.log("frrrrrr",aaa)
     setfriend(aaa.data.listUsers.items.filter(f=>f.id !== user.attributes.sub&& f._deleted!==true))
     const id = user.attributes.sub
         const result = await API.graphql(graphqlOperation(getUser,{id}))
         // const sync = result.data.getUser.chatrooms.items.filter(f=>f._deleted !==true)
         // console.log("rrrrrrrrr",sync)
-        // console.log("userdata",result.data.getUser)
+        console.log("userdata",result.data.getUser)
         setRoomdata(result.data.getUser)
         // dispatch({type:"USERDATA",payload:result.data.getUser})
 if (!result.data.getUser.chatrooms ){

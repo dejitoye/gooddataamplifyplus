@@ -13,18 +13,67 @@ import { DataStore } from '@aws-amplify/datastore';
 import { User } from 'src/models'
 import { ChatRoomUser } from 'src/models'
 import { ChatRoom } from 'src/models'
+import { Message } from 'src/models'
+import { useSelector } from 'react-redux'
 
 function MessageFriendsList({chatroom,userid}) {
     // console.log("walking",chatroom,userid)
     const [loading, setloading] = useState(false)
   
     const [userdata, setUserdata] = useState([])
-   
-    // console.log("object",chatroom)
-   
+    const [idd, setIdd] = useState(null)
+    const [count, setCount] = useState([])
+    // console.log("object",count)
+     console.log("walking",chatroom)
     const [id, setId] = useState(null)
+const msgcount = useSelector(state => state.message.msg)
+ console.log("object",msgcount)
+    useEffect(() => {
+      const fetchCount = async()=>{
+        const userid=  await Auth.currentAuthenticatedUser()
+        setIdd(userid.attributes.sub)
+        console.log(userid)
+          chatroom.map(async a=>{ 
+              console.log("asadrr",a)
+            const ccc =(await DataStore.query(Message)).filter(f=>f.chatroomID===a.chatroomID)
+            console.log("xcxcxcxc",ccc)
+            setCount(ccc)
+          })
+       
+      
+      }
+      fetchCount()
+    }, [])
+    useEffect(() => {
+       
+        // msgCount()
+    }, [msgcount])
+//     const msgCount =async (aaa)=>{
+//         console.log("what is aaa",aaa)
+       
+//         // if (count){
+//         const ccc = await (await DataStore.query(Message)).filter(f=>f.chatroomID===aaa?.chatroomID).filter(f=>f.user.id === userid.attributes.sub && f.status==="DELIVERED")
+//         // const ccc= count.filter(f=>f.chatroomID===aaa?.chatroomID).filter(f=>f.user.id === idd && f.status==="DELIVERED")
+// // return ccc
+        
+// const room = chatroom.map(e=>{
 
+//     if(ccc[0]?.chatroomID===e.chatroomID){
+//     //   setUserdata({ msgcount:ccc,...e})  
+//     // return ({msg:ccc,...e})
+//     }
     
+//     console.log("eee",e)
+// })
+
+// console.log("abi beko",room)
+//         console.log("delivered",ccc)
+//         // }
+//         // setCount(ccc)
+//          }
+    
+// console.log("vvvvv",msgCount)
+
     return (
         <div className=" flex justify-center items-center p-4">
             <div className="flex flex-col w-full">
@@ -40,7 +89,7 @@ function MessageFriendsList({chatroom,userid}) {
         <div>
             { chatroom?.map((c,i)=> 
                 // <Link href={`/messages/${c.chatRoomID}`}>
-                <IndividualChatRoom key = {i} chatroom = {c} userid={userid}  />
+                <IndividualChatRoom key = {i} chatroom = {c} userid={userid}    />
                 // </Link>
                 )}
              </div>}

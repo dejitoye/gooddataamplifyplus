@@ -6,37 +6,58 @@ import { useRouter } from 'next/dist/client/router'
 import { DataStore, SortDirection } from '@aws-amplify/datastore';
 import { Message } from 'src/models'
 import { useSelector } from 'react-redux'
-function IndividualChatRoom({chatroom,userid}) {
+function IndividualChatRoom({chatroom,userid,msgCount,countt}) {
   const [count, setCount] = useState([])
-const msgcount = useSelector(state => state.message.msg)
-console.log("message count",msgcount)
-    console.log("COUNT",count)
+// const msgcount = useSelector(state => state.message.msg)
+// console.log("message count",msgcount)
+    console.log("COUNT",chatroom)
     const router =useRouter()
 const onChat =()=> {
 router.push(`/messages/${chatroom.chatroomID}`)
 }
 
 
-useEffect(() => {
-  const ddd = count.map((c) =>{
-  // if( c.chatroomID===msgcount?.chatroomID) {
-  //   console.log("workedddddd")
-    // setCount((old)=> [...old,msgcount])
-// const update = 
-  // }return
-  })
- console.log("counted")
-}, [msgcount])
+// useEffect(() => {
+//   msgCount(chatroom)
+//  console.log("counted")
+// //  unread()
+// }, [])
 
+
+// useEffect(() => {
+ 
+//  unread()
+// }, [chatroom,countt])
+
+// const countty= ""
+const countty = chatroom.chatroom.Messages.items.filter(f=>f.user.id !== userid.attributes.sub && f.status==="DELIVERED")
+console.log("countty",countty)
 useEffect(() => {
   // this to get the number of unread msg using status delivery 
- const msgCount = async()=>{
-const ccc = await (await DataStore.query(Message)).filter(f=>f.chatroomID===chatroom.chatroomID).filter(f=>f.user.id !== userid.attributes.sub && f.status==="DELIVERED")
-// console.log("delivered",ccc,chatroom)
-setCount(ccc)
- }
- msgCount()
+//  const msgCount = async()=>{
+// const ccc = await (await DataStore.query(Message)).filter(f=>f.chatroomID===chatroom.chatroomID).filter(f=>f.user.id === userid.attributes.sub && f.status==="DELIVERED")
+// // const ccc = await (await DataStore.query(Message))
+
+// console.log("delivered",ccc)
+
+// setCount(ccc)
+//  }
+//  msgCount()
 }, [])
+
+// useEffect(() => {
+//   const bbb=()=>{
+// const fff = count.filter(f=>{
+//   if(f.chatroomID==="b90ebf97-34dc-4d43-95d5-adcf2050ef56")
+//   // setCount((old)=>[...old,...{id:1,type:1,name:"babs"}])
+//   setCount((old)=>({...old,{id:1,type:1,name:"babs"}}))
+//   // console.log("afaffafaf",f)
+// })
+// // console.log("afaffafaf",fff)
+// setCount
+//   }
+//   bbb()
+// }, [])
 
 const check=chatroom?.chatroom?.LastMessage?.user?.id===userid.attributes.sub
 // console.log("YESSSSSSSOOOOO",check)
@@ -70,7 +91,8 @@ const check=chatroom?.chatroom?.LastMessage?.user?.id===userid.attributes.sub
         {chatroom.chatroom?.newMessage}
         </span>
       {!check &&  <span> {chatroom.chatroom.LastMessage?.content}</span>}
-    {  <span> unread :{count.length}</span>}
+    {  <span> unread :{countty.length}</span>}
+  
         </div>
         </div>
         </button>

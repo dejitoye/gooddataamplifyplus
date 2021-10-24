@@ -6,10 +6,10 @@ import { DataStore } from '@aws-amplify/datastore';
 import {User} from "../../src/models"
 import IndividualMessageHeader from './IndividualMessageHeader';
 import { BackspaceIcon, CheckIcon, MailIcon, MailOpenIcon, PencilAltIcon, ReplyIcon } from '@heroicons/react/outline';
-import {useWindowScroll} from "react-use" 
+// import {useWindowScroll} from "react-use" 
 import { Message } from 'src/models';
 import MessageInput from './MessageInput';
-import ReactScrollableFeed from "react-scrollable-feed"
+// import ReactScrollableFeed from "react-scrollable-feed"
 import { comment } from 'postcss';
 import { updateMessage } from 'src/mygraphql/mutations';
 const ScrollToTop = ()=>{
@@ -59,7 +59,7 @@ useEffect(() => {
 const subscription = DataStore.observe(Message,message.id).subscribe(msg => {
 //   console.log("subscription",msg.model, msg.opType, msg.element)
   if(msg.model===Message && msg.opType==="UPDATE"){
-    //   console.log("blabalbal",message)
+    //   console.log("blabalbal",msg.element)
     setMessage((message)=>({...message,...msg.element}))
     
     
@@ -69,22 +69,24 @@ return ()=>subscription.unsubscribe
   }, []);
 useEffect(() => {
    setMsgAsRead() 
-}, [user,message])
+}, [user,props.message])
 
 const setMsgAsRead = async()=>{
     // console.log("uerssss",user)
 if(user===false && message.status !=="READ"){
     console.log("errtype",message)
     const msg = await DataStore.query(Message,message.id)
-await DataStore.save(Message.copyOf(msg,(updated)=>updated.status="READ"))
+const fror= await DataStore.save(Message.copyOf(msg,(updated)=>updated.status="READ"))
+// console.log("froott",fror)
 }
+
 }
 
  useEffect(() => {
      const verify=async ()=>{
         const userid= await Auth.currentAuthenticatedUser() 
         // we use or msg.use.id cos d subscription brings diff value
-if(message.userID === userid.attributes.sub|| message.user.id===userid.attributes.sub){
+if(message?.userID === userid.attributes.sub|| message?.user?.id===userid.attributes.sub){
     setUser(true)
 }else if (message.userID !== userid.attributes.sub|| message.user.id!==userid.attributes.sub){
 setUser(false)
@@ -111,7 +113,7 @@ userHeader()
 
 
     return (
-<ReactScrollableFeed> 
+// {/* <ReactScrollableFeed>  */}
         <div className="p-2">
           
 <div>
@@ -181,7 +183,8 @@ handleCancel = {()=>setActiveState(null)}
             </div>
            
         </div>
-        </ReactScrollableFeed>
+
+        // </ReactScrollableFeed>
     )
 }
 

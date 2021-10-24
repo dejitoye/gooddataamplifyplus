@@ -16,7 +16,7 @@ import { ChatRoom } from "src/models";
 import { listMessages } from "src/graphql/queries";
 import { createMessage, updateChatRoom } from "src/mygraphql/mutations";
 import { onCreateMessage } from "src/mygraphql/subscriptions";
-import ReactScrollableFeed from "react-scrollable-feed"
+// import ReactScrollableFeed from "react-scrollable-feed"
 import moment from "moment";
 import MessageInput from "./MessageInput";
 
@@ -58,18 +58,18 @@ const dispatch = useDispatch()
 const model = await DataStore.query(GetMessages,message=>message.chatroomID("eq",id),{
   sort:message=>message.createdAt(SortDirection.ASCENDING)
 })
-const bbb = model.filter(f=>f.replyToMessageID===null)
+// const bbb = model.filter(f=>f.replyToMessageID===null)
 
 const mass = await API.graphql(graphqlOperation(listMessages))
 const aaa= mass.data.listMessages.items.filter(m=>m.chatroomID===id)
-console.log("mass",bbb)
+// console.log("mass",bbb)
 // const model = await DataStore.query(GetMessages)
 const datauser= await (await DataStore.query(ChatRoomUser)).filter(a=>a.chatroom.id===id).filter(a=>a.user.id!==userid.attributes.sub)
 
 // console.log("datauser",datauser)
 setDisplayuser(datauser)
 // const model = await DataStore.query(GetMessages,Predicates.ALL,{ message=>message.chatroomID("eq",id),sortDirection})
-setGetMessage(bbb)
+setGetMessage(model)
 // setGetMessage(aaa)
 console.log("model fet",model)
   }
@@ -77,7 +77,7 @@ console.log("model fet",model)
 useEffect(() => {
 //  console.log("sssddddddd",id,getMessage,value)
 //  const id = value.id
-
+ console.log("sssddddddd",value)
  if(value&& value.element.chatroomID===id){
   subMesage(value,id)
   //  console.log("NA SOOOOOOOOOOO",value)
@@ -89,7 +89,7 @@ useEffect(() => {
 const subMesage= async(aaa,bbb)=>{
   const id = aaa.element.id
 const ddd = await DataStore.query(Message,id)
-
+console.log("my message",ddd)
 // console.log("individual",ddd,bbb)
 if (aaa.element.chatroomID===bbb){
   setGetMessage(old=>[...old,ddd])
@@ -115,13 +115,30 @@ if (aaa.element.chatroomID===bbb){
 //     }
 //   }, [])
 
+
+useEffect(() => {
+  console.log("ran once ")
+const subscription = DataStore.observe(Message,message.id).subscribe(msg => {
+//   console.log("subscription",msg.model, msg.opType, msg.element)
+if(msg.model===Message && msg.opType==="UPDATE"){
+    // console.log("blabalbal",msg.element)
+  // setMessage((message)=>({...message,...msg.element}))
+  
+  
+}
+})
+return ()=>subscription.unsubscribe
+}, []);
+
+
   useEffect(() => {
     console.log("ran once ")
 const subscription = DataStore.observe(Message).subscribe(msg => {
   // console.log("subscription",msg.model, msg.opType, msg.element)
+  //  console.log("subscription",msg.model, msg.opType, msg.element)
   if(msg.model===Message && msg.opType==="INSERT"){
     setValue(msg)
-    
+    // setGetMessage(old=>[...old,msg.element])
     
   }
 })
@@ -187,7 +204,10 @@ const sendMessage = async()=>{
   setMessage("")
 }
 const updateMainMessage= async(text,msg)=>{
-  const result = await DataStore.save(Message.copyOf(msg,updatemsg=>{
+  console.log("edit msd",msg)
+  const resultt = await DataStore.query(Message,msg.id)
+  console.log("individual",resultt)
+  const result = await DataStore.save(Message.copyOf(resultt,updatemsg=>{
     updatemsg.content=text
     }))
     console.log("from back end ",result)

@@ -25,8 +25,11 @@ const dispatch = useDispatch()
 
   useEffect(() => {
    const fetchUser= async()=>{
+     console.log("saaaapaaa",userData)
 const userData = await Auth.currentAuthenticatedUser()
+console.log("saaaapaaa",userData)
 const user = await DataStore.query(User,userData.attributes.sub)
+console.log("cggg",user)
 if(user){
   setUser(user)
 }
@@ -101,7 +104,7 @@ console.log("object",uuu)
   return ()=>listener();
     
   
-  }, [])
+  }, [user])
 
   return (
     <Provider store = {store}>
